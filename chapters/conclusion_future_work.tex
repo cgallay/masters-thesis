@@ -1,0 +1,64 @@
+\chapter{Concluding Remarks}
+\label{chap:Concluding Remarks}
+In this concluding chapter, we first go through a conclusion of the work presented in this thesis, in the section~\ref{sec:Conclusion}. We summarize our results and discuss the potential answer to the questions in the section~\ref{sec:Research Question & Contributions}. \\
+
+Finally, we elaborate on some potential trails for future work and how the current version of \emph{KG-RNN} could be improved. Each idea of possible improvement is described briefly in a separate paragraph and were not implemented mostly due to time constraints.
+
+\section{Conclusion}
+\label{sec:Conclusion}
+In this thesis, we proposed a novel architecture and pipeline for processing evolving knowledge graphs. This architecture has shown to exploit well information from other entities, through complex linkage structure created with external data sources. \\
+
+For our specific use-case in health-science, our enriched knowledge graph has been processed to naturally cope with many of the challenges inherent to the application. In particular, we proposed a way to create \textit{patient states} from the knowledge graph that can be seen as \textit{graph states} and further fed into our KG-RNN pipeline. \\
+
+In this scenario of predicting the top-50 diagnoses at discharge, our solution shows significant improvement over a simple single-admission setting. We evaluated our results both quantitatively and qualitatively to understand the pros and cons of the approach. These bottlenecks helped suggest further improvements that could be experimented to design a better second version of the \emph{KG-RNN} pipeline. \\
+
+Lastly, it would be very insightful to test our architecture on other use-cases in order to cross-validate qualitative and quantitative performances. More over, understanding the role of the different hyper-parameters and their impact on other use-cases could lead to beneficial insights for future versions of the pipeline.
+
+\newpage
+\section{Future Work}
+\label{sec:Future Work}
+As explained previously, this section is subdivided in paragraphs that each explains a potential improvement over our proposed pipeline. \\
+
+These suggestions are not ordered in terms of priority and may be implemented in whatever order the reader prefers, as they are all independent from each other.
+
+\paragraph{Knowledge Graph Extensions}
+The first and most obvious improvement lies in adding external sources to our knowledge graph to enrich the information it may carry. We hypothesize that our \textit{Weighted Personalized PageRank} approach scales well and makes even more sense for complex linkage structures. \\
+
+This improvement may lead to important changes in the different metrics as our KG-RNN pipeline seems to leverage the knowledge graph information.
+
+\paragraph{Events sampler}
+Within the data formation section~\ref{sec:Formation}, we describe that if the number of events in a given chunk for a certain type exceeds $K$, we randomly sample those. \\
+
+A potential improvement would be to use a more advanced sampling techniques to down-sample events with respect to their importance. Indeed, some events might carry more information for the final diagnoses than others and they could be discarded by \textit{blindly} sampling randomly among them.
+
+\paragraph{Neighbors Weighting}
+In the current pipeline proposal, all neighbors are considered of equal importance. However, this assumption is incorrect as some may be more relevant than others with respect to the input admission. \\
+
+To account for neighbor importance, one could use the WPPR score as a weighting coefficient for each neighbor, in front of the encoding vector, for example. However, this improvement will be more relevant as the knowledge graph structure complexity increases, leading to disparate coefficients, as with the current knowledge graph they are pretty uniforms among sampled neighbors.
+
+\paragraph{Smarter Hyper-Optimization}
+A better hyper-parameter optimization is a very interesting low-hanging fruit to explore. Indeed, given the number of hyper-parameters and limited computational power as well as time constraints, a simple random search is likely to miss top-scoring configurations. \\
+
+On the other hand, something like ``Bayesian optimization`` or ``TPE optimization`` could be smarter in how they explore the hyper-parameter space and find a better setting much faster. This improvement would be very easily implemented and is independent from models or pipeline improvements.
+
+\paragraph{Distance-based Aggregators}
+If we increase the number of sources of information for the knowledge graph, its complexity will inherently increase. That is, the WPPR-based sampling will most likely sample neighbors at different hop distance. \\
+
+In that regard, it may be interesting to adopt a strategy like GraphSAGE~\cite{DBLP:journals/corr/HamiltonYL17} which builds a different aggregator for each hop distance. This strategy could be easily coupled with our approach to have a different aggregator for each entity type (i.e. event type).
+
+\paragraph{Threshold Tuning}
+For any practical application, the final threshold to pass before triggering an alert is a critical parameter. Indeed, this threshold is very application dependent and rules the precision vs. recall trade-off. \\
+
+This threshold tuning could be automated or semi-automated by using a testing set to define the optimal threshold given precision or recall level we would like to reach.
+
+\paragraph{Chunks Overlap}
+During the data preparation described in section~\ref{sec:Preparation}, we could have an additional parameter to calibrate how much overlap there should be between two consecutive chunks. Currently, the KG-RNN pipeline does not add any overlap between chunks and they are perfectly disjoint and defined by $\tau$. \\
+
+However, overlapping patient states may convey more and smoother information than disjoint ones, at the cost of adding an additional hyper-parameter (that could be trivially set to $\tau/2$). We argue that this need of overlapping chunks vs. disjoint ones is application dependent and hence a hyper-parameter may suit better to test different configurations for the task at hand.
+
+\paragraph{ICD9 Hierarchy}
+As a last second application dependent improvement (on top of ``Admissions Chunking``), and as discussed in the qualitative study of our results in subsection~\ref{subsec:Qualitative analysis}, it would be very valuable to account for medical domain knowledge. In that purpose, leveraging information from the ICD9 hierarchy could lead to improved results and interpretability of neighbors. \\
+
+Indeed, in the current version of the knowledge graph, two neighbors are indirectly linked together through their pre-diagnosis. This information may be similar between two admissions but lead to different diagnoses. However the current architecture does not account for \textbf{diagnoses distance}. As an example, \textit{Pneumonia} and \textit{Pneumonitis} are probably ``closer`` in relevance than \textit{Pneumonia} and \textit{Diabetes}, and the ICD9 hierarchy may help to convey this kind of information with some tree-based distance. Practically, distances between diagnoses could be incorporated in the knowledge graphs by creating additional links between admissions, weighted by their distance in the ICD9 hierarchy. \\
+
+In a similar fashion, the loss could be adapted to decrease impact of errors where the distance within the tree is smaller. As an example, the two codes ``401.9`` and  ``401.8`` are harder to distinguish than ``401.9`` and ``507.8``, and thus the model should be less \textit{punished} for mistaking the first two.

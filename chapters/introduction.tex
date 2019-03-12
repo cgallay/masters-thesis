@@ -1,0 +1,40 @@
+\chapter{Introduction}
+\label{chap:Introduction}
+This chapter introduces the context of the work being presented here in sections~\ref{sec:Motivation}, to understand the ins and outs of it. Moreover, the problem statement is further developed in sections~\ref{sec:Problem Statement} to have a better idea of the problem at hand. \\
+On a related note, the section~\ref{sec:Research Question & Contributions} explicitly describes the research question this thesis tries to answer and the different contributions it makes. Finally, the overall structure of the thesis is detailed in the relevant section~\ref{sec:Thesis Structure}.
+\section{Motivation}
+\label{sec:Motivation}
+It is safe to assume that there are multiple manual processes involved in healthcare such as writing summary notes, correlating measurements, suggesting diagnosis, going through the patient's personal/family history, looking for past similar cases... Even with the recent progress made in ``Electronic Health Records`` the information they provide is not much easier to process than the good old pen and paper. Indeed, even if all these EHR are now easily accessible and normalized, it usually conveys much more information than a doctor can make sense of, at the same time. This EHR data contains information of various kinds, i.e., structured and unstructured, ranging from laboratory measurements to vital signs and even physician notes or radiology imaging. \\
+
+Recent studies~\cite{doi:10.1111/j.0956-7976.2005.00782.x} in psychological science show that humans can process at most four interacting variables at the same time, supporting the idea that to computer-assisted healthcare is the future of the domain. Therefore, the primary value that machine learning brings in healthcare is its ability to process huge datasets, beyond the scope of human capability and of different types (e.g. images, texts, ...). Afterwards, to reliably leverage information from that data into clinical insights to aid doctors in providing care, ultimately empowering physicians and speeding-up decision-making, thereby leading to better outcomes, lower costs of healthcare, and eventually improve patient satisfaction.
+
+\section{Problem Statement}
+\label{sec:Problem Statement}
+This thesis describes the problem of automatically predicting diagnoses for patients staying in intensive care units. To this end, we employ a restricted database.~\footnote{\url{https://mimic.physionet.org/}} Comprising of de-identified healthcare data associated with over 40 thousand patients with multiple admissions per patient, making for a bit less than 60 thousand in total. \\
+
+In our approach, we consider four measurements/events as predictive features per admission: fluids into the patient, fluids out of the patient, lab test results and drugs prescribed by doctors. These events represent the evolving state of a patient during his stay which is then captured by a graph with different nodes for each event, where the topology and linkage of the graph are evolving as new events arrive. On top of this, the current admission (for which we want to predict diagnoses) is enriched with information from other admissions, potentially of other patients, by leveraging a knowledge graph that is built from our dataset and external ones. \\
+
+Our final objective is to feed this evolving graph to a Recurrent Neural Network and predict at every step the probability that of one or many of the top 50 diagnoses will be diagnosed at discharge.
+
+\section{Research Question \& Contributions}
+\label{sec:Research Question & Contributions}
+Contributions of this thesis are formulated in the following question:
+\begin{quote}
+How to structure our healthcare data, as a graph, and design an appropriate pipeline to leverage as much information as possible from previous admissions of other patients?
+\end{quote}
+To answer this question, this thesis provides the following contributions:
+\begin{itemize}
+	\item Propose a way to build an appropriate knowledge graph from admissions data as well as external medical data.
+	\item Suggest how to naturally build an evolving knowledge graph for each admission, to represent the evolution of a patient's state.
+	\item Build a pipeline to leverage this evolving knowledge graph to solve the task at hand: Predicting diagnoses at discharge.
+	\item Analyze the results both quantitatively and qualitatively to further assess the quality of the proposed pipeline.
+\end{itemize}
+\section{Thesis Structure}
+\label{sec:Thesis Structure}
+This thesis starts by a quick introduction in chapter~\ref{chap:Introduction} where we overview the motivation that lead to this project and the problem statement, summarized in a research question and different contributions. \\
+The following chapter~\ref{chap:Background} develops the core concepts that will permit the reader to understand the implementation and difficulties of such a problem. \\
+After that, the chapter~\ref{chap:Dataset} introduces the dataset at hand that we will use to apply our proposed framework and pipeline. This chapter goes into details about the dataset, its limitations and scope as well as some statistics detailing it. \\
+Then, we introduce the baseline model in chapter~\ref{chap:Baseline} from a conceptual point-of-view and in details. Furthermore, we provide schematic visualizations of this baseline to fully grasp the idea, since the proposed pipeline relies on some parts. \\
+In chapter~\ref{chap:KG-RNN}, we go into the details of our proposed framework called \emph{KG-RNN}. The pipeline is detailed step-by-step to allow for an easy re-implementation of each stage. \\
+Moreover, we propose some experiments in chapter~\ref{chap:Experiments} to compare the baseline versus KG-RNN. This set of experiments highlights interesting findings on KG-RNN through plots, to analyze both quantitatively and qualitatively the results.\\
+Finally, in the last chapter~\ref{chap:Concluding Remarks}, we conclude this thesis and propose some potential improvements for future work that could lead to an even better architecture for KG-RNN.

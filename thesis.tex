@@ -1,0 +1,80 @@
+%% ----------------------------------------------------------------
+%% Thesis.tex -- main
+%% ---------------------------------------------------------------- 
+
+\documentclass[a4paper, 10pt, oneside]{memoir}
+\usepackage{basilea}
+
+\usepackage{tikz-network}
+\usetikzlibrary{patterns}
+\usetikzlibrary{matrix}
+\usetikzlibrary{decorations.pathreplacing}
+\usepackage{amsthm}
+\usepackage{wrapfig}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{tabularx}
+\usepackage{pdflscape}
+\usepackage{multirow}
+\usepackage[inline]{enumitem}
+\theoremstyle{plain}
+\newtheorem{theo}{Theorem}[section]
+\newtheorem{defi}{Definition}[section]
+\newtheorem{assu}{Assumption}[section]
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{remark}{Remark}[section]
+\newtheorem{note}{Note}[section]
+\newtheorem{cor}{Corollary}[section]
+\newtheorem{ques}{Questions}[section]
+\newtheorem{lem}{Lemma}[section]
+\newcommand{\parenv}[1]{\left( {#1} \right)}
+\newcommand{\ceilenv}[1]{\left\lceil {#1} \right\rceil}
+\newcommand{\mathset}[1]{\left\{ {#1} \right\}}
+\newcommand{\sparenv}[1]{\left[ {#1} \right]}
+\newcommand{\Prob}[1]{\mathbb{P}\!\left[{#1} \right]}
+\newcommand{\Ex}[1]{\mathbb{E}\!\left[{#1} \right]}
+\newcommand{\Var}[1]{\mathbb{E}\!\left[({#1} -\Ex{#1})^2 \right]}
+\newcommand{\td}{\tilde{d}}
+\newcommand{\eqdef}{\triangleq}
+%% ----------------------------------------------------------------
+\begin{document}
+
+\selectlanguage{english}
+
+\thesisfront
+\maketitle
+\pagestyle{thesis}
+%% ----------------------------------------------------------------
+\input{./front/acknowledgment}
+%% ----------------------------------------------------------------
+\input{./front/abstract}
+%% ----------------------------------------------------------------
+\thesistoc
+%% ----------------------------------------------------------------
+%\thesisnomencl
+%% ----------------------------------------------------------------
+\thesismain
+\input{./chapters/introduction}
+\input{./chapters/background}
+\input{./chapters/dataset}
+\input{./chapters/baseline}
+\input{./chapters/kg_rnn}
+\input{./chapters/experiments}
+\input{./chapters/conclusion_future_work}
+
+%% ----------------------------------------------------------------
+\bibliographystyle{ieeetr}
+\bibliography{references}
+
+%\thesisappendix
+%\thesisbib
+\begin{appendices}
+	%\input{./back/appendix} 
+\end{appendices}
+
+%% ----------------------------------------------------------------
+%\thesisback
+%\input{./Back/DeclarationOfAuthorship}
+%% ----------------------------------------------------------------
+\end{document}
+%% ----------------------------------------------------------------
