@@ -41,44 +41,44 @@
 \contentsline {section}{\numberline {5.1}Overview}{23}{section.65}
 \contentsline {section}{\numberline {5.2}Weighted Knowledge Graph Construction}{23}{section.66}
 \contentsline {section}{\numberline {5.3}Weighted Knowledge Graph Extraction}{25}{section.73}
-\contentsline {section}{\numberline {5.4}Graph Machine Learning}{25}{section.77}
-\contentsline {subsection}{\numberline {5.4.1}Schematic Visualizations}{27}{subsection.78}
-\contentsline {chapter}{\chapternumberline {6}Experiments}{28}{chapter.81}
-\contentsline {section}{\numberline {6.1}Setup}{28}{section.82}
-\contentsline {section}{\numberline {6.2}Metrics}{30}{section.83}
-\contentsline {paragraph}{F1 Score}{30}{section*.84}
-\contentsline {paragraph}{Area Under Receiver Operating Characteristic}{30}{section*.86}
-\contentsline {paragraph}{Macro and Micro Averages}{30}{section*.87}
-\contentsline {section}{\numberline {6.3}Deep Learning Hyper-parameter Tuning}{31}{section.88}
-\contentsline {subsection}{\numberline {6.3.1}Method}{31}{subsection.89}
-\contentsline {subsection}{\numberline {6.3.2}Search space}{31}{subsection.90}
-\contentsline {subsection}{\numberline {6.3.3}Results}{32}{subsection.91}
-\contentsline {paragraph}{Baseline}{32}{section*.92}
-\contentsline {paragraph}{KG-RNN}{32}{section*.93}
-\contentsline {section}{\numberline {6.4}Experiments}{33}{section.94}
-\contentsline {subsection}{\numberline {6.4.1}Chunk length}{34}{subsection.95}
-\contentsline {paragraph}{Discussion}{34}{section*.97}
-\contentsline {subsection}{\numberline {6.4.2}Admission Length}{35}{subsection.98}
-\contentsline {paragraph}{Discussion}{35}{section*.100}
-\contentsline {subsection}{\numberline {6.4.3}Number of events per chunk}{36}{subsection.101}
-\contentsline {paragraph}{Discussion}{36}{section*.103}
-\contentsline {subsection}{\numberline {6.4.4}Number of Neighbors}{37}{subsection.104}
-\contentsline {paragraph}{Discussion}{37}{section*.106}
-\contentsline {section}{\numberline {6.5}ICD9 Prediction}{38}{section.107}
-\contentsline {subsection}{\numberline {6.5.1}Quantitative analysis}{38}{subsection.108}
-\contentsline {paragraph}{Discussion}{39}{section*.111}
-\contentsline {subsection}{\numberline {6.5.2}Qualitative Analysis}{40}{subsection.115}
-\contentsline {paragraph}{Embeddings}{40}{section*.116}
-\contentsline {paragraph}{Predictions}{41}{section*.117}
-\contentsline {chapter}{\chapternumberline {7}Concluding Remarks}{44}{chapter.122}
-\contentsline {section}{\numberline {7.1}Conclusion}{44}{section.123}
-\contentsline {section}{\numberline {7.2}Future Work}{45}{section.124}
-\contentsline {paragraph}{Knowledge Graph Extensions}{45}{section*.125}
-\contentsline {paragraph}{Events sampler}{45}{section*.126}
-\contentsline {paragraph}{Neighbors Weighting}{45}{section*.127}
-\contentsline {paragraph}{Smarter Hyper-Optimization}{45}{section*.128}
-\contentsline {paragraph}{Distance-based Aggregators}{45}{section*.129}
-\contentsline {paragraph}{Threshold Tuning}{45}{section*.130}
-\contentsline {paragraph}{Chunks Overlap}{46}{section*.131}
-\contentsline {paragraph}{ICD9 Hierarchy}{46}{section*.132}
-\contentsline {chapter}{Bibliography}{47}{chapter*.133}
+\contentsline {section}{\numberline {5.4}Graph Machine Learning}{26}{section.78}
+\contentsline {subsection}{\numberline {5.4.1}Schematic Visualizations}{27}{subsection.79}
+\contentsline {chapter}{\chapternumberline {6}Experiments}{28}{chapter.82}
+\contentsline {section}{\numberline {6.1}Setup}{28}{section.83}
+\contentsline {section}{\numberline {6.2}Metrics}{30}{section.84}
+\contentsline {paragraph}{F1 Score}{30}{section*.85}
+\contentsline {paragraph}{Area Under Receiver Operating Characteristic}{30}{section*.87}
+\contentsline {paragraph}{Macro and Micro Averages}{30}{section*.88}
+\contentsline {section}{\numberline {6.3}Deep Learning Hyper-parameter Tuning}{31}{section.89}
+\contentsline {subsection}{\numberline {6.3.1}Method}{31}{subsection.90}
+\contentsline {subsection}{\numberline {6.3.2}Search space}{31}{subsection.91}
+\contentsline {subsection}{\numberline {6.3.3}Results}{32}{subsection.92}
+\contentsline {paragraph}{Baseline}{32}{section*.93}
+\contentsline {paragraph}{KG-RNN}{32}{section*.94}
+\contentsline {section}{\numberline {6.4}Experiments}{33}{section.95}
+\contentsline {subsection}{\numberline {6.4.1}Chunk length}{34}{subsection.96}
+\contentsline {paragraph}{Discussion}{34}{section*.98}
+\contentsline {subsection}{\numberline {6.4.2}Admission length}{35}{subsection.99}
+\contentsline {paragraph}{Discussion}{35}{section*.101}
+\contentsline {subsection}{\numberline {6.4.3}Number of events per chunk}{36}{subsection.102}
+\contentsline {paragraph}{Discussion}{36}{section*.104}
+\contentsline {subsection}{\numberline {6.4.4}Number of neighbors}{37}{subsection.105}
+\contentsline {paragraph}{Discussion}{37}{section*.107}
+\contentsline {section}{\numberline {6.5}ICD9 Prediction}{38}{section.108}
+\contentsline {subsection}{\numberline {6.5.1}Quantitative analysis}{38}{subsection.109}
+\contentsline {paragraph}{Discussion}{39}{section*.112}
+\contentsline {subsection}{\numberline {6.5.2}Qualitative Analysis}{40}{subsection.116}
+\contentsline {paragraph}{Embeddings}{40}{section*.117}
+\contentsline {paragraph}{Predictions}{41}{section*.118}
+\contentsline {chapter}{\chapternumberline {7}Concluding Remarks}{44}{chapter.123}
+\contentsline {section}{\numberline {7.1}Conclusion}{44}{section.124}
+\contentsline {section}{\numberline {7.2}Future Work}{45}{section.125}
+\contentsline {paragraph}{Knowledge Graph Extensions}{45}{section*.126}
+\contentsline {paragraph}{Events sampler}{45}{section*.127}
+\contentsline {paragraph}{Neighbors Weighting}{45}{section*.128}
+\contentsline {paragraph}{Smarter Hyper-Optimization}{45}{section*.129}
+\contentsline {paragraph}{Distance-based Aggregators}{45}{section*.130}
+\contentsline {paragraph}{Threshold Tuning}{45}{section*.131}
+\contentsline {paragraph}{Chunks Overlap}{46}{section*.132}
+\contentsline {paragraph}{ICD9 Hierarchy}{46}{section*.133}
+\contentsline {chapter}{Bibliography}{47}{chapter*.134}

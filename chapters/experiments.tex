@@ -196,7 +196,7 @@ In this experiment we make the number of hours per chunk vary. This means that w
 \paragraph{Discussion} We see that the number of hours per chunk does not have a huge impact after 3 hours. However, setting the chunk length to small (i.e. 1 hour) makes the graph state probably too sparse in terms of the number of events.
 
 \newpage
-\subsection{Admission Length}
+\subsection{Admission length}
 This experiment makes the number of chunks per admission vary, also referred as the number of graph states. This will have the impact of increasing the size of sequences that are fed to the downstream Recurrent Neural Network and challenge its capacity to encode long-term dependencies in the input sequences.
 
 \begin{figure}[H]
@@ -219,7 +219,7 @@ For this experiment, we vary the \textit{maximum} number of events per chunk and
 \paragraph{Discussion} As in the previous experiment, we see a clear optimum for the F1 score at 25 events per chunk and per type. Again, the conclusion is not so obvious for the AUROC score, and this metric does not seem to improve much above $K=15$.
 
 \newpage
-\subsection{Number of Neighbors}
+\subsection{Number of neighbors}
 As a last experiment, we made the number of neighbors for each input entity varies. As the previous experiment, this defines the maximum number of neighbors and does not mean it will have exactly $M$ neighbors. Indeed, it is important to remember that we set a minimum \emph{WPPR} threshold of $0.0001$ that might lead to some isolated admissions having $\leq M$ neighbors.
 
 \begin{figure}[H]
@@ -276,7 +276,7 @@ We also evaluated the results on the different metrics that we described in the 
 
 To further assess the quality of our \emph{KG-RNN} model, we decided to use a statistical significance test, the McNemar's Test~\footnote{\href{https://en.wikipedia.org/wiki/McNemar\%27s\_test}{https://en.wikipedia.org/wiki/McNemar's\_test}}. Indeed, this test will allow us to get a very precise idea of the relevance of the edge that \emph{KG-RNN} seems to have over the baseline. \\
 
-The McNemar's test requires to build a ``contingency table`` as follows from our results: \\
+The McNemar's test requires to build a ``contingency table`` from our results, as follows: \\
 
 \begin{table}[H]
  \begin{center}
@@ -316,6 +316,7 @@ Notably, in our case the \emph{Corrected McNemar} test statistic is: \\
 \begin{equation}
 \chi^2 = \frac{(|b-c|-1)^2}{b+c} = \frac{(|7247-7984|-1)^2}{7247+7984} = 35.57
 \end{equation}
+
 and the associated \textbf{p-value} under $H_0$ is $P=0.0000000025$, which is extremely small and statistically significant. \\
 
 Hence, our p-value shows sufficient evidence to reject the null in favor of the alternative hypothesis. Therefore, the two models have different performances when trained on this particular testing set, supporting the idea that the edge over the baseline is not due to randomness but rather a truly improved predictive power.
