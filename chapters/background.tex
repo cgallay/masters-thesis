@@ -1,168 +1,155 @@
-\chapter{Background}
-\label{chap:Background}
-This chapter will provide the reader with relevant information and background knowledge that are required to understand the proposed architecture. Indeed, the main concepts described hereunder are at the core of the employed methods and rationale behind the different intuitions. \\
+\chapter{Technical Background}
+This chapter describe briefly the different building blocks to do deep learning models, the metrics to evaluate them once trained and how the output of a model can be explained.
 
-To summarize, we will go through the main benefits of knowledge graphs and why they are gaining traction in the machine learning field. Then, the concept of Recurrent Neural Network (RNN) will be broached, a famous deep learning architecture to induce temporal correlation into a model. Finally, we will explore the concept and body of literature for evolving knowledge graphs and their applications.
+\section{Model blocks}
 
-\section{Knowledge Graphs}
-\label{sec:Knowledge Graph}
-Knowledge graphs model information through entities, properties of these entities and relationships between them. This kind of modelization of information allows to naturally combine different sources together and ultimately leverage information from data streams initially disparate. By managing to merge together these sources, the goal is to enrich our knowledge on the given entities and eventually leverage this additional linkage structure information with machine learning techniques. \\
+\subsection{Fully Connected}
+
+One of the most basic component when building a Deep Learning model is the fully connected (FC) layer. Mathematically it is defined as:
+$$Y=X*W + b$$
+Where $Y$ the outputs are express as a linear combination of the inputs $X$ and a bias $b$. It has been proven by the well know \textbf{Universal approximation theorem} that such layers combine with non linear functions can approximate in theory any continuous functions.
+
+\subsection{3D CNN}
 
 \begin{wrapfigure}{r}{0.6\textwidth}
  \centering
- \includegraphics[width=.9\linewidth]{figures/kg-example.png}
+ \includegraphics[width=.9\linewidth]{figures/3D_CNN_example.png}
  \captionsetup{width=.9\linewidth}
- \caption{An example of a knowledge graph representing how countries are related geographically.}
- \label{fig:kg-example}
+ \caption[3D_CNN_example]{Illustration\footnotemark{} of a 3D CNN Network}
+ \label{fig:3d_cnn_example}
 \end{wrapfigure}
+\footnotetext{\href{https://www.researchgate.net/publication/330912338_ECNN_Activity_Recognition_Using_Ensembled_Convolutional_Neural_Networks}{https://www.researchgate.net/publication/330912338\_ECNN\_Activity\_Recognition\_Using\_Ensembled\_Convolutional\_Neural\_Networks}}
+The fully connected layer presented above are really general and work well with a large variety of data as no assumption is made. Unfortunately, for certain kind of data it can quickly become unscalable to use a FC layers. For example, when dealing with images of size 200 by 200 in color, a layer with 100 features output would already required 12'000'100 parameters to be learned (including bias).
 
-For example, on the figure~\ref{fig:kg-example}, we could imagine that geographical links (e.g. borders, is located in, \dots) come from a different source (e.g. OpenStreeMap) of information than the political links (e.g. is part of, has alternative name, \dots). In this enhanced graph combining information, two entities might be closer to each other (in terms of graph hops) than in any of the individual sources. \\
+One of the assumption that convolutional layers makes when dealing with images, is spacial locality. Pixels close to each other are more likely to be correlated that distant ones. From this assumption, CNN can be seen as small FC layer that are apply at multiple location across the image. Those one are usually call kernel. 
 
-Finally, any algorithmic technique employed downstream could potentially make use of the edge type (e.g. borders, is part of, \dots) in the procedure, by giving more weights to specific edge types, for example. All in all, this allows for a much wider spread of potential techniques and information extraction algorithms or models. \\
+This way of computing the inputs does have multiple advantages. One of the them being weight sharing. The kernel being apply at multiple location, the weight learned to extract a feature in one location are by construction reused to extract the same features everywhere else in the image. Another property of CNN that comes directly from how it is computed is translation equivariance. Now a day, CNN have become the standard way of treating image.
 
-For these reasons, representing and leveraging knowledge as such has a long history in machine learning and computer science as a whole~\cite{Minsky:1974:FRK:889222, Davis1993WhatIA}. In the last few years, this concept has gained a lot of traction in the scientific community as well as in the industry~\cite{LiuZhiyuan:247, 7358050} for obvious reasons. Indeed, the tremendous progress made in machine learning coupled with this idea of knowledge graph has been applied to many applications such as fraud detection (e.g. for a bank), community identification (e.g. in a social network), recommender systems (e.g. for an online shop). In such systems, it may be difficult for a human to make sense of the different links between entities and how their properties correlate as these links could be multiple hops away from each other. \\
+In our case, the MRI which are 3D images, are even larger that standard image and therefore for all the same reason why you want to use a CNN to process a 2D image, it makes even more sense to use a 3D CNN when dealing with 3D image. The only difference you get between 2D CNN and 3D CNN is the shape of the kernel you are learning, which are now 3D as the input. Figure \ref{fig:3d_cnn_example} illustrate how similar 3D CNN are to 2D CNN.
 
-In these previous examples, the entities, properties and relationships could be the following:
-\paragraph{Bank knowledge graph: }
+
+
+\section{Losses and Metrics}
+\label{sec:losses_metrics}
+This section list the different metrics and loss used during that project.
+
+\subsection{Binary Cross Entropy}
+\label{sec:binary_cross_entropy}
+
+$$ L = -(y\log(p) + (1-y)\log(1-p))$$
+
+\subsection{Mean Square Error (MSE)}
+\label{sec:mean_square_error}
+This loss is used to penalize errors done by a network for example in the case of a regression. It works with continues values and is defined as:
+$$ MSE = \frac{\sum_{i=1}^{n} (Y_i - \^{Y}_i)^2}{n}$$
+Where $\^{Y}_i$ is the predicted value and $Y_i$ is the target value.
+\subsection{Mean Absolute Error (MAE)}
+This metrics is really similar to the MSE, but we take the absolute value of the error instead of raising it to the square.
+$$ MAE = \frac{\sum_{i=1}^{n} |(Y_i - \^{Y}_i)|}{n}$$
+\subsection{Accuracy}
+The accuracy is one of the simplest metrics to evaluate a model. It is computed by counting the number of correctly classified sampled divided by the total number of sample.
+
+
+\subsection{Precision and Recall}
+While accuracy is simple to understand and to visualise, it can often fail at evaluating the performance of a model when the dataset is unbalanced with regards to the classes. To overcome that issue other metrics can be computed based on the true/false positive and true/false negative.
+
 \begin{itemize}
- \item[] Entities and Properties:
- \begin{itemize}
-  \item Person(First name, Last name, Address)
-  \item Company(Name, Address)
-  \item Account(Number, Type, Amount)
- \end{itemize}
- \item[] Relationships:
- \begin{itemize}
-  \item Person -- \textit{is owner} -- Account
-  \item Company -- \textit{is owner} -- Account
-  \item Person -- \textit{work at} -- Company
-  \item Account -- \textit{wire transfer} -- Account
- \end{itemize}
-\end{itemize}
-\paragraph{Social network knowledge graph: }
-\begin{itemize}
- \item[] Entities and Properties:
- \begin{itemize}
-  \item Person(First name, Last name)
-  \item Group(Name)
-  \item Content(Title)
- \end{itemize}
- \item[] Relationships:
- \begin{itemize}
-  \item Person -- \textit{friend with} -- Person
-  \item Person -- \textit{likes} -- Content
-  \item Person -- \textit{belongs to} -- Group
- \end{itemize}
-\end{itemize}
-\paragraph{Online shop knowledge graph (figure~\ref{fig:kg-online-shop}): }
-\begin{itemize}
- \item[] Entities and Properties:
- \begin{itemize}
-  \item Client(First name, Last name)
-  \item Category(Name)
-  \item Product(Name, Price, Properties)
- \end{itemize}
- \item[] Relationships:
- \begin{itemize}
-  \item Client -- \textit{purchased} -- Product
-  \item Client -- \textit{follows} -- Category
-  \item Product -- \textit{belongs to} -- Category
-  \item Product -- \textit{shares property} -- Product
-  \item Product -- \textit{has similar price} -- Product
- \end{itemize}
+    \item \textbf{True positive (TP)}: Positive sample correctly classified as positive. 
+    \item \textbf{False positive (FP)}: Negative sample badly classified as positive. 
+    \item \textbf{True negative (TN)}: Negative sample correctly classified as negative. 
+    \item \textbf{False negative (FN)}: Positive sample badly classified as negative.
 \end{itemize}
 
-\newpage
-\begin{figure}
-	\centering
-	\includegraphics[width=.75\linewidth]{figures/kg-online-shop.pdf}
-	\caption{
-		An example of evolving knowledge graph for the ``Online Shop`` case described above. The evolution of the graph is shown through the labels $T=t$ for some edges. Indeed, the clients are buying, and generally performing actions, over time and the structure of the graph is evolving accordingly at different time step. The external information linking these \textit{Converse} shoes (made with jeans fabric) and a \textit{Levi's 511} may come from an external database to automatically map product identifiers to materials and fabrics they are made of.
-	}
-	\label{fig:kg-online-shop}
-\end{figure}
+Precision can thus be computed as bellow and give a sense on how precise you are with your prediction.
+$$Precision = \frac{TP}{TP +  FP}$$
 
-\section{Recurrent Neural Network}
-\label{sec:Recurrent Neural Network}
-Recurrent Neural Network consists of a type of architecture for Deep Learning models that allows exploiting temporal dynamic behavior for sequence. This makes them particularly interesting and efficient for tasks that exhibit a temporal pattern, such as speech recognition or market forecasting. On top of that, this kind of architecture allows processing variable-length sequence input, which is not the case for most of the other machine learning (e.g. \textit{linear regression} or \textit{support vector machine}) or deep learning techniques (e.g. \textit{convolutional neural networks}).\\
+Recall on the other hands can be computed as bellow and gives a sense on how likely the model is to detect dementia when the patient is really dement.
+$$Recall =\frac{TP}{TP + FN}$$
+In medical situation it might be more interesting to have a model with a good recall at the expense of precision. The consequences of being detected as healthy when in fact you suffer from the disease is often worst than the opposite. 
 
-Originally, these Recurrent Neural Networks were first heard of in 1986~\cite{10008954896} but the term \emph{recurrent} was not yet used to qualify the progress introduced in the paper. It is only three years later~\cite{6796948} that the term started to appear more actively in the research literature to qualify this type of neural networks. \\
+It turns out that accuracy can also be computed with those terms.
 
-At core of Recurrent Neural Networks, there are cells that rule how information is blended together from previous time steps and current step, and how much importance is given to these past and present steps. Technically, the RNN handles variable-length inputs by storing a hidden state that is recurrently updated at each time step based on its previous hidden state at time \emph{T-1}, and the current input at time \emph{T}. More formally, given a sequence of inputs $\bm{x} = (\bm{x}_1, \bm{x}_2, ..., \bm{x}_T)$, the hidden state $\bm{h}_t$ is updated following the equation:
 
-\begin{equation}\label{eq:rnn_hidden}
-\bm{h}_t = 
-\begin{cases}
-\bm{0}, & t=0 \\
-f(\bm{h}_{t-1}, \bm{x}_t; \bm{\theta}), & \mbox{otherwise}
-\end{cases}
-\end{equation}
+$$Accuracy = \frac{TP + TN}{TP + TN + FP + FN}$$
 
-With \emph{f} refers to a non-linear function depending on some parameters $\bm{\theta}$. Typically, the equation~\ref{eq:rnn_hidden} is defined as:
 
-\begin{equation}
- \bm{h}_t = f(U\bm{x}_t + W\bm{h}_{t-1} + \bm{b})
-\end{equation}
+\subsection{ROC - AUC}
+Receiver Operating Characteristic allows for plotting a chart like figure \ref{fig:roc_curve} that visualize the precision and recall at different threshold. From that curve we can compute the Area Under the Curve (AUC) which is a good metric to compare different model. Usually a bigger AUC means a better model, but what one is really interested into is how fast the curve is raising. 
+In an ideal situation we expect the curve to touch the top left corner and have an AUC of 1.
 
-Where the parameters $\bm{\theta}$ are the matrices \emph{W}, \emph{U} and the bias term $\bm{b}$, while the function \emph{f} is a smooth and bounded function such as sigmoid or a hyperbolic tangent. Finally, the sequence of outputs of the RNN $\bm{y} = (\bm{y}_1, \bm{y}_2, ..., \bm{y}_T)$ is usually defined as:
+\subsection{PR - Curve}
+The Precision and Recall is often use in replacement of the ROC curve when dealing with unbalanced data. TODO.
 
-\begin{equation}
-\bm{y}_t = g(V\bm{h}_t + \bm{c})
-\end{equation}
 
-Where the matrix \emph{V} and the bias vector $\bm{c}$ are learned parameters, while the function \emph{g} is often a \emph{softmax}. \\
+\section{Transfer learning with Auto-Encoder}
+Autoencoders are a class of neural network, usually used to encode the data into a latent space. The idea is quite simple, the network is made of two components, an \textit{encoder}, which maps the original data to the latent space and a \textit{generator} which maps back from the latent space to the original space of the data. Note that the latent space must be of lower cardinality than the input, otherwise th encoder could simply learn the identity function. The training goal is to reconstruct as accurately as possible the the input data. To ensure that, the loss used can be either mean square error with no activation to the last layer. If the input data has been normalized into the range $[0, 1]$, by applying a $sigmoid$ function to the the last layer one could use the binary cross entropy loss as an alternative, though the lost won’t converge to zero. 
 
-Unfortunately, such networks are suffering from many problems while training to use \emph{back-propagation through time} or (\emph{BPTT}). Indeed, this architecture has difficulties capturing long-term dependencies in the input sequence because the gradient update has a tendency to take abnormally big values (i.e. explode) or small ones (i.e.e vanish, since they are squashed at every time steps by the bounded activation functions \emph{sigmoid} or \emph{tanh}). \\
+The loss is comparing the input data with the network output, thus making this kind of neural network fall into the network that can be trained in an unsupervised manner. This is especially interesting when you have a problem with a lot of data but only a few of them are labeled. The Autoencoders can be an easy solution to extract interesting features from the dataset not related to any task. The weights learned during the training can be later reused in combination with another network to either classify or do any related supervised task.
 
-To circumvent these two problems, researchers have designed more sophisticated activation functions, called cell in this case. The two principal types of cell are LSTM~\cite{doi:10.1162/neco.1997.9.8.1735} and GRU~\cite{DBLP:journals/corr/ChoMGBSB14}, the former predating the latter by almost 20 years. A schematic view of these types of cell can be found in~\ref{fig:cells} for a better understanding of the mechanisms ruling the learning dynamic. These are the typical go-to cells for any application requiring a Recurrent Neural Network. However there does not exist a rule of thumb to pick one of the two as this is usually dependent on the application and, more precisely, on the data at hand~\cite{DBLP:journals/corr/ChungGCB14}. Nonetheless, one interesting argument in favor of the GRU cell is that it depends on fewer parameters than LSTM, as they lack an output gate. It makes them particularly interesting when the computational resources are limited or when one wants to iterate over quick experiments. \\
+Another similar network is the denoising Autoencoder \cite{denoising_autoencoder_10.5555/1756006.1953039}. It is trained to remove artificially added noise to from its inputs. It as the advantage of not requiring a compression of the input in dimension and is also know to extract better features.
+
+This model has been implemented, but as we did not get much unlabeled data either, we did not see any improvement it.
+
+\section{Model Explication}
+There exist different way to explain the output of a model. We tried different approach that either are specific to computer vision task or more general and compare them for our specific task of dementia prediction.
+
+\subsection{Shap}
+Shap is an algorithm based on Game Theory that aimed to predict the contribution of a feature to increase the confidence of a model. It’s mathematical background lies on the shapley value which basically is the average of the marginal contribution across all permutation of the features.
+
+\begin{wrapfigure}{l}{0.7\textwidth}
+ \centering
+ \includegraphics[width=.9\linewidth]{figures/shap_mnist_image_plot.png}
+ \captionsetup{width=.9\linewidth}
+ \caption[ShapExample]{Example of shap value from the Shap repo\footnotemark{}. Each column represent the shap output for a specific class (in a sorted order).}
+ \label{fig:shap_example}
+\end{wrapfigure}
+\footnotetext{\href{https://github.com/slundberg/shap}{https://github.com/slundberg/shap}}
+
+The library\cite{shap_lundberg2017unified} works with different kinds of models but it was tested with the GradientExplainer as DeepExplainer is not fully compatible with Pytorch yet. Compared to some other explainer algorithm, Shap presents the advantage of giving negative value for a feature which has a negative correlation with the output. The output obtained by that process can be seen in figure\ref{fig:explainer_compared}, but we can see that it does not give good interpretation incredible in comparison with other techniques.
+
+
+
+\subsection{Grad-Cam}
+When the input is an image, people are interesting into finding which part of the image better explain the prediction. In his paper\cite{zhou2015cnnlocalization} Zhou, propose a specific model for which he could create a \textit{class activation maps}. This idea has been generalized to work with any model by the authors of grad-cam. 
 
 \begin{figure}
- \centering
- \includegraphics[width=.6\linewidth]{figures/rnn-cells.png}
- \captionsetup{width=.75\linewidth}
- \caption{
-  The schematic views of an LSTM (\textit{left}) and GRU (\textit{right}) cell. On the left-hand cell, \emph{i}, \emph{o} and \emph{f} mean respectively \emph{input}, \emph{output} and \emph{forget} gates. Finally, on this same cell, \emph{c} and \emph{$\tilde{c}$} represents the old and new contents of the memory cell. For the right-hand cell, \emph{r} and \emph{z} are the reset and update gates while \emph{h} and \emph{$\tilde{h}$} are respectively the actual and new (or candidate) activation. Figure from~\cite{DBLP:journals/corr/ChungGCB14}.
- }
- \label{fig:cells}
+    \centering
+    \includegraphics[width=400]{figures/gradcam_multilayer.pdf}
+    \caption{GradCam saliency map seen at different layer. Trilinear interpolation is used in first row and nearest interpolation in second row.}
+    \label{fig:grad_cam_multilayer}
 \end{figure}
 
-The equations defining the update dynamics of the hidden state, as well as the other parameters in these cells are the following:
+The Grad-Cam\cite{grad_cam_2019} algorithm is looking for activation of the neurons at a particular layer. To do so the input is processed in a forward pass by the network until the final prediction is done. The gradient of the predicted class with respect to the layer of interest is then computed. It is then pool across its spatial dimension in order to get a value of layer importance per channel. The features extracted from the image are then multiplied channel wised by the pooled gradient in order to get an activation map (also called saliency map) of the same shape at the output of the layer of interest. This can be map to the original image shape by interpolation. For visual purposes we choose to do a trilinear interpolation. This algorithm is well schematized in figure \ref{fig:grad_cam_arch}.
 
-\begin{multicols}{2}
- \centering
- \textbf{LSTM update equations}
- \begin{equation*}
-  \begin{aligned}
-   \bm{i}_t &= \sigma(U^i\bm{x}_t + W^i\bm{h}_{t-1}) \\
-   \bm{f}_t &= \sigma(U^f\bm{x}_t + W^f\bm{h}_{t-1}) \\
-   \bm{o}_t &= \sigma(U^o\bm{x}_t + W^o\bm{h}_{t-1}) \\
-   \bm{\tilde{C}}_t &= tanh(U^g\bm{x}_t + W^g\bm{h}_{t-1}) \\
-   \bm{C}_t &= \sigma(\bm{f}_t \odot \bm{x}_t + \bm{i}_t \odot \bm{\tilde{C}}_t) \\
-   \bm{h}_t &= tanh(\bm{C}_t) \odot \bm{o}_t
-  \end{aligned}
- \end{equation*}\columnbreak
- \vfill
- \textbf{GRU update equations}
- \begin{equation*}
-  \begin{aligned}
-   \bm{z}_t &= \sigma(U^z\bm{x}_t + W^z\bm{h}_{t-1}) \\
-   \bm{r}_t &= \sigma(U^r\bm{x}_t + W^r\bm{h}_{t-1}) \\
-   \bm{\tilde{h}}_t &= tanh(U^h\bm{x}_t + W^h(\bm{r}_t \odot \bm{h}_{t-1})) \\
-   \bm{h}_t &= (1-\bm{z}_t) \odot \bm{h}_{t-1} + \bm{z}_t \odot \bm{\tilde{h}}_t
-  \end{aligned}
- \end{equation*}
-\end{multicols}
+\begin{figure}
+    \centering
+    \includegraphics[width=400]{figures/grad_cam_arch.jpeg}
+    \caption{Schema of the GradCam algorithm taken from the paper\cite{grad_cam_2019}}
+    \label{fig:grad_cam_arch}
+\end{figure}
 
-Finally, these two cells and all these equations are defining a \emph{causal} structure. That is, the output at time \emph{T} only depends and capture information from the past $1, ..., T-1$ through the learning dynamics. However, it may be interesting to have the output at each time step to \emph{depend on the whole sequence}, in applications where it makes sense. Indeed, if one is doing part-of-speech tagging, the tag of a given work not only depends on the preceding words but following ones. On the contrary, if one wants to run the model on an \textit{online} stream of data for example, it would be flawed to train the model with access to future time steps. \\
+When model goal is to performs multi-class classification it makes sense to apply a relu function to the activation map in order to remove the negative value that could be explaining any other classes in the image. In our case as we are dealing with a binary classification task, it might make sense not to remove negative value and let a clinician decide which map is more useful for him.
 
-However, in many cases it is possible to train such models with information from previous and next states where the relevant architecture is called \emph{Bidirectional RNN}. This kind of model combines an RNN that moves forward and one that moves backward, to finally mix their respective output with a concatenation followed by a fully-connected layer. \\
+The output size of the layer one tries to explain will determines the granularity of the activation map. The artifact due to shrinkage of the network can be seen on figure \ref{fig:grad_cam_multilayer}. This impose a trade off when constructing your model as you don’t want your last convolution layer to be too small in order to keep a good focused explanation. On the other hand if you keep it too big you end up with a too big model for which a lot of data is needed to be trained.
 
-To conduct our research, we picked GRU cells in our case for the reasons mentioned above, namely their efficiency that allows to iterate over different architectures and hyper-parameters faster. The use of bidirectional RNN or not will be a hyper-parameter tuned with the other ones.
+Guided backpropagation\cite{guided_backprop_springenberg2014striving} is another visualization to explain what a model has learnt. Compare to grad-cam it gives a sharper explanation map, but fails at giving an explanation for a specific class. To get the best of both, it is possible to multiply point wise the two outputs as illustrated on the left side of figure \ref{fig:grad_cam_arch}.
 
-\section{Evolving Knowledge Graph}
-\label{sec:Evolving Knowledge Graph}
-This last core concept tackles the problem of evolving knowledge graph, where the term \emph{evolving} refers to a dynamic component within the knowledge graph. Furthermore, it characterizes changes in the graphs that can be two fold: changes in the structure (e.g. new entities and links, such as a new \emph{company} in the ``Bank knowledge graph`` example in section~\ref{sec:Knowledge Graph}), changes in properties within entities (e.g. the \emph{product price} could evolve over time for the ``Online shop knowledge graph``). \\
 
-Ultimately, the goal is to account for such dynamic behavior in the structure of the graph or its properties. Indeed, one could consider these changes as a sequence of graph states, each state representing the graph structure and property values at a given time \emph{T}. This additional information would benefit many applications and allow for much complex information interaction than a knowledge graph that remains static. However, incorporating temporal information into knowledge graph-based learning is still one of the major difficulties~\cite{LiuZhiyuan:247}. For this reason, a lot of efforts have been carried around the topic~\cite{D16-1260, 7527876, DBLP:journals/corr/TrivediDWS17, 8047276}, but there still remains a lot of challenges such as scalability to large real-world applications and capacity to capture dynamics in skewed graphs~\cite{DBLP:journals/corr/abs-1812-02289}. \\
+\subsection{FullGrad}
 
-With this in mind, we are seeking an architecture that is able to reason over time by capturing the different dynamics of the knowledge graph at the same time as leveraging its structure and relationships. 
+Devoloped by Sriniva at EPFL, FullGrad\cite{fullgradient} introduce the a new tool for neural network interpretability that satisfy both \textit{completeness} and \textit{weak dependence on inputs}. Completeness can be seens as the property that the saliency map contains all the information necessary to compute the output of the model.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=400]{figures/fullgrad_layer_agregation.png}
+    \caption[FullGradExample]{Visualization\cite{fullgradient} of bias-gradient at different layer and the output of fullGrad which is an aggregation of the input-gradient and all the intermediate layers.}
+    \label{fig:full_grad_layer_aggreagtion}
+\end{figure}
+
+A saliency map is complete if there exist a function $\phi$ such that:
+
+$$\phi(S(x), x) = f(x) \text{ } \forall x,f$$
+
+Weak dependence on inputs on the other hand, is a property that you get when slightly changing an important pixel drastically affect the output of the model. Previous methods were not able to have those two property at the same time.
+
+As visualized in figure \ref{fig:full_grad_layer_aggreagtion} the output of the fullGrad algorithm is an aggregation of the gradient at multiple layer. Therefore compare to GradCam there is no need to define a layer of interest which usually is set to the last convolutional layer. This also make the algorithm less sensitive to the potentially small size of the last convolutional layer.
