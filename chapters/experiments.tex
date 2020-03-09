@@ -1,9 +1,9 @@
 \chapter{Experiments}
-This chapter explain how the models where trained in order to find the best performances and a nice explanation map.
+This chapter explains how the models were trained in order to find the best performances and a nice explanation map.
 \section{Training}
-Training of the models was done using the Adam\cite{kingma2014adam} optimizer and the pytorch\cite{pytorch_paszke2017automatic} library. An implementation in tensorflow\cite{tensorflow_45166} has been done but pytorch was choose as we needed to explain the model using the fullGrad\cite{fullgradient} github repository.
+Training of the models was done using the Adam\cite{kingma2014adam} optimizer and the pytorch\cite{pytorch_paszke2017automatic} library. An implementation in tensorflow\cite{tensorflow_45166} has been done but PyTorch was chosen as we needed to explain the model using the fullGrad\cite{fullgradient} GitHub repository.
 
-Training the different models required to fine turn some parameter. Figure \ref{fig:fine_tune_learning_rate} shows how the test loss can be use to compare the performances of the model when trained with different learning rate. Here we see that choosing a learning rate of $0.00005$ seems to be the best decision to train the model. The tuning and hyper parameter for the other models were selected using a similar approach.  
+Training the different models required to fine turn some parameter. Figure \ref{fig:fine_tune_learning_rate} shows how the test loss can be used to compare the performances of the model when trained with different learning rate. Here we see that choosing a learning rate of \num{5e-05} seems to be the best decision to train the model. The tuning and hyperparameters for the other models were selected using a similar approach.  
 
 \begin{figure*}
     \centering
@@ -40,14 +40,14 @@ Training the different models required to fine turn some parameter. Figure \ref{
     \label{fig:fine_tune_learning_rate}
 \end{figure*}
 
-Once trained a network should be able to predict the correct class for an input. Unfortunately achieving 100 percent accuracy is not something possible, and model as human do mistake. Never the less, the output of the network can be interpreted as a confidence score on the prediction of the network. Therefore even in the case where the network outputs $0.45$, which means that the patient has is not dement, it can still be worth double checking his case. In fact for this particular prediction, the network is not so confident and as more chance of being wrong. Unfortunately when trained for too long, network tend to become over confident and there outputs become almost binary (values close to zero or close to one), losing part of its interpretability. Label Smoothing \cite{label_smoothing_szegedy2015rethinking} aimed at reducing that over confidence of network by changing the label of the train set from $0$ to $0 + \epsilon$ and from $1$ to $1 - \epsilon$. For the experiments, we chose $\epsilon$ to be $0.1$.
+Once trained a network should be able to predict the correct class for any input. Unfortunately the prediction of a model can not be blindly trust. Nonetheless, the output of the network can be interpreted as a confidence score on the prediction of the network. Therefore even in the case where the network outputs $0.45$, which means that the patient is not dement, it can still be worth double-checking his case. In fact for this particular prediction, the network is not so confident and has more chances of being wrong. Unfortunately, when trained for too long, the network tends to become overconfident and its outputs become almost binary (values close to zero or close to one), losing part of its interpretability. Label Smoothing \cite{label_smoothing_szegedy2015rethinking} aims at reducing the overconfidence of network by changing the label of the train set from $0$ to $0 + \epsilon$ and from $1$ to $1 - \epsilon$. For the experiments, we chose $\epsilon$ to be $0.1$.
 
-The loss used for training is Binary cross entropy. But as shown on figure \ref{fig:OASIS_CDR_table} the data we are training on is unbalanced. Instead of training the model with the standard binary cross entropy loss as defined in section \ref{sec:binary_cross_entropy} we used a variant that penalise more the mistakes done on the under represent class. In our case as we have approximately 70 percent of control sample and 30 percent of dements ones, the loss for a dement sample would be weighted by $\frac{1}{0.3} = 3.33$ and the other by $\frac{1}{0.7} = 1.43$.
+The loss used for training is Binary Cross Entropy. But as shown in figure \ref{fig:OASIS_CDR_table} the data we are training on is unbalanced. Instead of training the model with the standard binary cross-entropy loss as defined in section \ref{sec:binary_cross_entropy} we used a variant that penalises more the mistakes done on the underrepresented class. In our case, as we have approximately 70 percent of control samples and 30 percent of dements ones, the loss for a dement sample would be weighted by $\frac{1}{0.3} = 3.33$ and the other by $\frac{1}{0.7} = 1.43$.
 
 Note that more could have been done in order to better train the model such as trying another optimizer or even using a learning rate scheduler, but we did not want to focus on performances but on explainability.
 
-\section{Evaluate}
-The performance of the different model being very similar, we will perform the evaluation on the standard convolution model described in section \ref{sec:standard_cnn}. This section purely evaluate the model's performance and resistance to age bias, but is not interested at the explainability of the model. 
+\section{Evaluation}
+The performance of the different model being very similar, we will perform the evaluation on the standard convolution model described in section \ref{sec:standard_cnn}. This section purely evaluates the model's performance and resistance to age bias but is not interested in the explainability of the model. 
 
 
 \subsection{Bias due to age}
@@ -58,13 +58,13 @@ The performance of the different model being very similar, we will perform the e
  \caption[PredPerAge]{Prediction of dementia per age.}
  \label{fig:prediction_per_age}
 \end{wrapfigure}
-As shown in section \ref{sec:OASIS}, the OASIS dataset present a bias to age. To evaluate the model bias we can look at figure \ref{fig:prediction_per_age}. We can see a trend that the model tend to more easily predict dementia to and old person than a young one.
+As shown in section \ref{sec:OASIS}, the OASIS dataset present a bias to age. To evaluate the model bias we can look at figure \ref{fig:prediction_per_age}. We can see a trend that the model tends to more easily predict dementia to and old person than a young one.
 
 
 \subsection{Metrics}
-In order to evaluate and compare the different model, we used the metrics defined in section\ref{sec:losses_metrics}. The confusion matrix in figure \ref{fig:test_conf_matrix} allow us to compute the accuracy which is of $81.87\%$. This metric is quite confusing as it seems to be a good performance, but random already has an accuracy of $70.76\%$. Instead we can compute the precision which is of $74\%$ and the recall to be of $67.27\%$.
+In order to evaluate and compare the different model, we used the metrics defined in section \ref{sec:losses_metrics}. The confusion matrix in figure \ref{fig:test_conf_matrix} allows us to compute the accuracy which is of $81.87\%$. This metric is quite confusing as it seems to be a good performance, but random already has an accuracy of $70.76\%$. Instead, we can compute the precision which is of $74\%$ and the recall to be of $67.27\%$.
 
-Figure \ref{fig:roc_and_pr_curve} shows the ROC and PR curves to gain a better sense of the model performance. Note that as the dataset is unbalanced it is recommended to look as the PR curve. 
+Figure \ref{fig:roc_and_pr_curve} shows the ROC and PR curves to gain a better sense of the model performance. Note that as the dataset is unbalanced it is recommended to look at the PR curve. 
 
 \begin{wrapfigure}{r}{0.6\textwidth}
  \centering
@@ -94,15 +94,14 @@ Figure \ref{fig:roc_and_pr_curve} shows the ROC and PR curves to gain a better s
 \end{figure}
 
 \newpage
-\section{Explain}
+\section{Model Output Explanation}
 
-As shown in figure \ref{fig:alzheimerbrain}, Alzheimer disease tend to severely damage some specific  region of the brain. One of those region is the hypocampus which serves at the creation of new memories. We would expect from a good explainer that indeed it highlight this specific region when explaining the output for a damage brain. Figure \ref{fig:dem_vs_control_age_pred} compare the outputs of the 3 algorithms we implemented on different slice of a damage brain. In fact we choose slice where the hypocampus is visible and observe that while shap explaination is difficult to interpret. Both GradCam and FullGrad have some focus on the hypocampus. It is especially visible with the output of the fullgrad algorithm where its maximal attention on that slice is actually located inside the hypocampus. For the rest of the report we chose to work with fullgrad as its output makes more sense to us and is also sharper. The brain viewer implemented in annex \ref{chap:brainviewer} is design to work with a fullgrad saliency map. 
+As shown in figure \ref{fig:alzheimerbrain}, Alzheimer disease tends to severely damage some specific regions of the brain. One of those regions is the hippocampus which serves at the creation of new memories. We would expect from a good explainer that indeed it highlight this specific region when explaining the output for a damaged brain. Figure \ref{fig:dem_vs_control_age_pred} compares the outputs of the 3 algorithms we implemented on different slices of a damaged brain. In fact, we choose slices where the hippocampus is visible and observe that while Shap explanation is difficult to interpret. Both GradCam and FullGrad have some focus on the hippocampus. It is especially visible with the output of the fullgrad algorithm where its maximal attention on that slice is actually located inside the hippocampus. For the rest of the report, we chose to work with fullgrad as its output makes more sense to us and is also sharper. The brain viewer implemented in annexe \ref{chap:brainviewer} is designed to work with a fullgrad saliency map. 
 
 
 \begin{figure}
     \centering
-    \includegraphics[width=.9\linewidth]{figures/Experiements/explainer_coparaison.pdf}
+    \includegraphics[width=1\linewidth]{figures/Experiements/explainer_coparaison.pdf}
     \caption{Outputs of the explainer algorithm on one patient with dementia.}
     \label{fig:explainer_compared}
 \end{figure}
-

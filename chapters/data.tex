@@ -1,9 +1,9 @@
 \chapter{Data}
-The data used for the analysis of the brain are Magnetic Resonance Imaging (MRI). That type of scanning is often used as it captures the structure of the brain without the need of exposing the patient to radiation (in contrast to X-ray).  
+The data used for the analysis of the brain are Magnetic Resonance Imaging (MRI) scans. This type of scanning is often used as it captures the structure of the brain without the need for exposing the patient to radiations (in contrast to X-ray).  
 
 \section{MRI Images}
 
-MRI scans we are only interested in detecting hydrogen in your body. In fact this element is widely present in water and fat which makes it interesting.
+MRI scans are interested in detecting hydrogen in the body. In fact this element is widely present in water and fat which makes it interesting in order to analyze the inner workings of the human body.
 \begin{wrapfigure}{r}{0.6\textwidth}
  \centering
  \includegraphics[width=.9\linewidth]{figures/dataset/mri-steps.jpg}
@@ -12,20 +12,21 @@ MRI scans we are only interested in detecting hydrogen in your body. In fact thi
  \label{fig:IXI_hospital_count}
 \end{wrapfigure}
 \footnotetext{\href{https://science.howstuffworks.com/mri3.htm}{https://science.howstuffworks.com/mri3.htm}}
-In normal state protons inside the hydrogen nucleus are spinning in a random directions, but when placed into a strong magnetic field (usually between 0.2 to 3 teslas which is about 10’000 times stronger than a magnet that people usually use on their fridge). They will align their spin with the field.
 
-Approximately half of them will end up facing the field and the other half in the same direction as the field. In fact a bit more protons will lined up their spin in a low configuration. Those extra protons, despite being only a few are the interesting ones.
+In normal state protons inside the hydrogen nucleus are spinning in a random directions, but when placed into a strong magnetic field (usually between 0.2 to 3 teslas which is about 10’000 times stronger than magnets people usually use on their fridge). They will align their spin with the field.
 
-The second phase consists of sending a specific radio frequency (RF) pulse. The extra proton currently in low-energy configuration will absorb that pulse and flip on their axes.  When the RF pulse is stopped, the proton will return into its low-energy configuration and doing so emits RF waves. As different tissues of the brain contains differents hydrogen density, those map highlight well the different tissues of a brain, especiallu the white and gray matter.
+Approximately half of them will end up facing the field and the other half in the same direction as the field. In fact, a few more protons will line up their spin in a low configuration. Those extra protons, despite being only a few, are the interesting ones.
 
-Some parameters of the machine can be tune in order to produce different maps (also call modalities). One of the parameter that can be tuned is the amount of time between two pulses are sent. In fact two of the most often used modalities (T1 and T2) differ by that parameter. For the rest of the report, when talking about MRI we are indeed referring as T1-weighted images.
+The second phase consists of sending a specific radio frequency (RF) pulse. The extra protons currently in low-energy configuration will absorb that pulse and flip on their axes.  When the RF pulse is stopped, the protons will return into their low-energy configuration and doing so emit RF waves. As different tissues of the brain contain different hydrogen densities, these map highlight well the different tissues of a brain, especially the white and grey matter.
 
-As it will be shown later, knowing how those images were formed is quite important, when preprocessing them.
+Some parameters of the machine can be tuned in order to produce different maps (also called modalities). One of the parameters that can be tuned is the amount of time between two pulses are sent. In fact, two of the most often used modalities (T1 and T2) differ by that parameter. For the rest of the report, when talking about MRI we are indeed referring as T1-weighted images.
+
+As shown later, knowing how these images were formed is quite important, when preprocessing them.
 
 \section{Datasets}
 This section explains the different datasets used as well as some basic statistics about them.
 \subsection{IXI}
-IXI dataset consists of approximately 600 MR Images from healthy patients. Each in T1, T2 and PD-weighted modalities, but for our application, we will concentrate on T1-weighted images only. The data has been collected in 3 different hospitals. For each image we have the age of the patient together with other information such as if the patient is right or left handed and his sex. As visualize on Figure \ref{fig:IXI_hospital_count}, the scans comes from different hospitals. Further analysis as highlighted on Figure \ref{fig:IXI_age_dist_per_hosp} shows that there is in fact a bias on age induce by the different hospital. This could let the model to learn where the IRM comes from in order to predict the age. For example, by detecting that an IRM comes from the IOP hospital, the model could output an age around 30 year old without being terribly wrong. Of course as we do not want that, it is important to normalize our data as illustrated by figure \ref{fig:intensity_normalization} of the to preprocessing pipeline.
+IXI dataset consists of approximately 600 MR Images from healthy patients. Each in T1, T2 and PD-weighted modalities, but for our application, we will concentrate on T1-weighted images only. The data has been collected in 3 different hospitals. For each image, we have the age of the patient together with other information such as if the patient is right or left-handed and his sex. As visualized on figure \ref{fig:IXI_hospital_count}, the scans comes from different hospitals. Further analysis as highlighted in figure \ref{fig:IXI_age_dist_per_hosp} shows that there is a bias on age due to data coming from different hospitals. This could let the model learn where the IRM comes from in order to predict the age. For example, by detecting that an IRM comes from the IOP hospital, the model could output an age around 30 years old without being terribly wrong. Of course, as we do not want that, it is important to normalize our data as illustrated by figure \ref{fig:intensity_normalization} of the to preprocessing pipeline.
 
 \begin{figure}
 \centering
@@ -45,10 +46,10 @@ IXI dataset consists of approximately 600 MR Images from healthy patients. Each 
 
 \subsection{OASIS}
 \label{sec:OASIS}
-This is the main dataset we used in order to train and conduct our analysis on dementia detection, and explanation. It consists of 1098 patients for which we can have multiple scans across time. This has to be taken into account when splitting the dataset into train and test sets. If this information is omitted, half scans of a patient could end up in the train set and the other half into the test set, leaking some information between the two sets that are not independent anymore.
+This is the main dataset we used in order to train and conduct our analysis of dementia detection and explanation. It consists of 1098 patients for which we can have multiple scans across time. This has to be taken into account when splitting the dataset into train and test sets. If this information is omitted, half scans of a patient could end up in the train set and the other half into the test set, leaking some information between the two sets that are not independent anymore.
 
 
-Having multiple samples for one patient comes from the longitudinally of the dataset, this influenced the way we attribute labels a sample. In the dataset, one patient can have multiple diagnosis depending on when he was diagnosed. For example, on first check up he might have been diagnosed healthy, but when checked again 5 years later, his diagnosis might have changed to be dement. We choose to deal with this situation by taking for each patient his latest (worst) diagnosis as label for each sample. This choice is motivated as we want to build a model that detects dementia as early as possible. Therefore those samples where human failed at making a correct early diagnosis are helping the model into learning features to detect the illness even in situations where the human eye might fail.
+Having multiple samples for one patient comes from the longitudinally of the dataset, this influenced the way we attribute labels to a sample. In the dataset, one patient can have multiple diagnoses depending on when he was diagnosed. For example, on first check up he might have been diagnosed healthy, but when checked again 5 years later, his diagnosis might have changed to be dement. We choose to deal with this situation by taking for each patient his latest (worst) diagnosis as label for each sample. This choice is motivated as we want to build a model that detects dementia as early as possible. Therefore those samples where human failed at making a correct early diagnosis are helping the model into learning features to detect the illness even in situations where the human eye might fail.
 \begin{wrapfigure}{l}{0.6\textwidth}
  \centering
  \includegraphics[width=.9\linewidth]{figures/dataset/OASIS_CDR_table.png}
@@ -65,22 +66,22 @@ Having multiple samples for one patient comes from the longitudinally of the dat
  \label{fig:OASIS_age_dist}
 \end{wrapfigure}
 
-The dataset does not contain a final diagnosis whether or not a patient has dementia with a certainty of 100 percent. The label associated with each scan is called \textit{clinical dementia rating} (CDR)\footnotemark. This particular diagnosis is based on an interview of both the subject, his caregiver and a clinician. It aimed at testing different cognitive domains such as memory, problem solving or orientation. The results range from 0 to 3, where 0 stands for no dementia, 0.5 questionable dementia, 1 mild, 2 moderate and 3 severe cognitive impairment. For simplification, we decided to go for only two classes, either dementia or no dementia. Images with CDR 0 are labeled as control image (no dementia) and images with CDR either one two or three were labeled as dement. We choose to discard images with a CDR of 0.5 as those might be confusing for the model. The distribution of CDR can be observe in figure \ref{fig:OASIS_age_dist}
+The dataset does not contain a final diagnosis of whether or not a patient has dementia with a certainty of 100 percent. The label associated with each scan is called \textit{clinical dementia rating} (CDR)\footnotemark. This particular diagnosis is based on an interview of both the subject, his caregiver and a clinician. It aimed at testing different cognitive domains such as memory, problem-solving or orientation. The results range from 0 to 3, where 0 stands for no dementia, 0.5 questionable dementia, 1 mild, 2 moderate and 3 severe cognitive impairment. For simplification, we decided to go for only two classes, either dementia or no dementia. Images with CDR 0 are labelled as control image (no dementia) and images with CDR either one two or three were labelled as dement. We choose to discard images with a CDR of 0.5 as those might be confusing for the model. The distribution of CDR can be observed in figure \ref{fig:OASIS_age_dist}
 \footnotetext{\href{https://www.sciencedirect.com/topics/medicine-and-dentistry/clinical-dementia-rating}{https://www.sciencedirect.com/topics/medicine-and-dentistry/clinical-dementia-rating}}
 
-Dementia being often diagnosed for old people, we want to check how this is affecting our dataset. Figure \ref{fig:OASIS_age_dist} clearly highlight something important about the distribution of age patient in the dataset. We see that dement people tend to be older. To mitigate this effect while training, we build as described in section \ref{sec:unbias_model} a model that tries to learn feature from the image that contains enough information to predict dementia but does not allow the model to predict the age of the patient. 
+Dementia being often diagnosed for old people, we want to check how this is affecting our dataset. Figure \ref{fig:OASIS_age_dist} clearly highlight something important about the age distribution in the dataset. We see that dement people tend to be older. To mitigate this effect while training, we build as described in section \ref{sec:unbias_model} a model that tries to extract feature from the image that contains enough information to predict dementia but do not allow the model to predict the age of the patient. 
 
 
 \section{Preprocessing}
-Preprocessing is especially important in medical imaging. For example, badly done a model could easily detect from which hospital/machine the data has been acquired, just by looking at the intensity distribution of pixels. In case where the data is biased on some hospital, as it is the case in figure \ref{fig:IXI_age_dist_per_hosp},  the model could easily overfit on that bias. In fact due to the expensive price of acquiring data, dataset are often created by merging data from multiple hospital institutes. In addition we do not want our model to work well on one hospital only, but should generalize as much as possible for other hospital too. The section below describes in detail the different stage of our preprocessing pipeline to overcome those issues.
+Preprocessing is especially important in medical imaging. For example, badly done a model could easily detect from which hospital/machine the data has been acquired, just by looking at the intensity distribution of voxels. In the case where the data is biased on some hospital, as it is the case in figure \ref{fig:IXI_age_dist_per_hosp},  the model could easily overfit on that bias. In fact, due to the expensive price of acquiring data, datasets are often created by merging data from multiple hospital institutes. In addition, we do not want our model to work well on one hospital only, but should generalize as much as possible for other hospitals too. The section below describes in detail the different stage of our preprocessing pipeline to overcome those issues.
 
 
 \subsection{Resampling}
-MRI scanner have different resolution that directly comes from the machine use to acquire the data. To overcome that we use the meta data present in the MRI header to re sample the images such that the effective distance between two pixels is exactly 1mm. This might require drop of resolution or interpolation in the case where the original image was sample at a lower resolution.
+MRI scanners can have different resolutions that directly comes from the machine used to acquire the data. To overcome that we use the metadata present in the MRI header to resample the images such that the effective distance between two neighboring voxels is exactly 1mm. This might require a drop of resolution or interpolation in the case where the original image was sampled at a lower resolution.
 
 
 \subsection{Bias field correction}
-In medical imaging, one would logically expect that the intensity of a certain type of tissue should always be the same across the image. For example, the value of a pixel representing white matter should be the same independently of its location in the image. However this expectation does not match the reality, there are numerous undesirable artefacts imply by the way the data is recorded. Those are often referred to as bias field, and sometimes as shading, intensity non-uniformity/in-homogeneity.  Fortunately for us, this non-uniformity can be assumed to be of low-frequency and thereby to be smooth across the image, which means that it can be estimated and corrected or at least mitigate.
+In medical imaging, one would logically expect that the intensity of a certain type of tissue should always be the same across the image. For example, the value of a voxel representing white matter should be the same independently of its location in the image. However this expectation does not match the reality, there are numerous undesirable artefacts imply by the way the data is recorded. Those are often referred to as bias field, and sometimes as shading, intensity non-uniformity/in-homogeneity.  Fortunately for us, this non-uniformity can be assumed to be of low-frequency and thereby to be smooth across the image, which means that it can be estimated and corrected or at least mitigated.
 \begin{wrapfigure}{r}{0.5\textwidth}
  \centering
  \includegraphics[width=.9\linewidth]{figures/preprocessing/N4_explain.jpeg}
@@ -90,7 +91,7 @@ In medical imaging, one would logically expect that the intensity of a certain t
 \end{wrapfigure}
 \footnotetext{\href{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3071855/}{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3071855/}}
 
-One can try to correct the bias by modelling the recorded image as a combination of 3 component, the clean image $I$, the bias field of low frequency $B$ and an independent Gaussian noise $\sigma$. This formula is one possible way to combine those components. $S(x,y,z)= I(x,y,z)*B(x,y,z) +\sigma(x,y,z)$. The algorithm we used, indeed assume that formula, for bias field correction. The low frequency bias field $B$ can be seen in red in figure \ref{fig:N4_explain}. It is an improvement over the \textit{non-parametric nonuniform normalization (N3)} and is therefore named N4. 
+One can try to correct the bias by modelling the recorded image as a combination of 3 component, the clean image $I$, the bias field of low frequency $B$ and an independent Gaussian noise $\sigma$. This formula is one possible way to combine those components. $S(x,y,z)= I(x,y,z)*B(x,y,z) +\sigma(x,y,z)$. The algorithm we used, indeed assumes that formula, for bias field correction. The low-frequency bias field $B$ can be seen in red in figure \ref{fig:N4_explain}. It is an improvement over the \textit{non-parametric nonuniform normalization (N3)} and is therefore named N4. 
 The exact computation of the bias is not relevant to that thesis, but the reader can find the details in the original paper \cite{N4_paper}.
 
 
@@ -114,15 +115,15 @@ The algorithm used internally by ANTs\footnotemark{} is the following:
 \item Find the optimal diffeomorphism that minimizes the negative Mutual Information.
 \end{enumerate}
 \footnotetext{\href{https://stnava.github.io/ANTs/}{https://stnava.github.io/ANTs/}}
-As only invertible transformation are applied, the resulting output from this algorithm is the register image and an invertible transformation. The fact that the transformation is invertible is quite important as it means that in total the information has not been lost but its now shared between the registered image and the transformation matrix.
+As only invertible transformation are applied, the resulting output from this algorithm is the register image and an invertible transformation. The fact that the transformation is invertible is quite important as it means that in total the information has not been lost but it is now shared between the registered image and the transformation matrix.
 
-Unfortunately some useful features for the task could now be encoded into the transformation and dealing with the registered image only could lead to worst performances. For this reason the next steps of the pipeline are going to be executed on both the registered image and the none registered one. In a further work, it would be interesting to train the model on the not register image to compare the performances.
+Unfortunately, some useful features for the task could now be encoded into the transformation and dealing with the registered image only could lead to bad performances. For this reason, the next steps of the pipeline are going to be executed on both the registered image and the none registered one. In further work, it would be interesting to train the model on the not register image to compare the performances.
  
-The optimization task can not be implemented in one step due to the high number of parameters tune. Therefore an iterative approach based on the gradient is implemented. This solution might not be the optimal one but does converge to it. This makes it by far the most computation expensive step of the pipeline, it takes roughly 10 minutes per image to be realigned with the common brain. For that reason we had to parallelize the preprocessing pipeline using programs such as GNU parallel\footnotemark{}.
+The optimization task can not be implemented in one step due to the high number of parameters to tune. Therefore an iterative approach based on the gradient is implemented. This solution might not be the optimal one but does converge to it. This makes it by far the most computation expensive step of the pipeline, it takes roughly 10 minutes per image to be realigned with the common brain. For that reason, we had to parallelize the preprocessing pipeline using programs such as GNU parallel\footnotemark{}.
 \footnotetext{\href{https://www.gnu.org/software/parallel/}{https://www.gnu.org/software/parallel/}}
 
 \subsection{Skull stripping}
-This step removes the skull from the image. Doing so is quite easy once the brain has been remapped into MNI152 space, we can simply multiply the pixel with the inverted skull mask to obtain the brain without the mask. 
+This step removes the skull from the image. Doing so is quite easy once the brain has been remapped into MNI152 space, we can simply multiply the voxel value with the inverted skull mask to obtain the brain without the mask. 
 
 By doing so we can ensure that the model will not try to learn information from the skull. Those are in fact not related at all for our task.
 
@@ -133,20 +134,20 @@ By doing so we can ensure that the model will not try to learn information from 
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=1\linewidth]{figures/preprocessing/intensity_before_norm.pdf}
-  \caption{Before pixel intensity normalization}
+  \caption{Before voxel intensity normalization}
   \label{fig:before_intensity_normalization}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=1\linewidth]{figures/preprocessing/intensity_after_norm.pdf}
-  \caption{After pixel intensity normalization}
+  \caption{After voxel intensity normalization}
   \label{fig:after_intensity_normalization}
 \end{subfigure}
-\caption{Pixel intensity distributions of 10 randomly chosen sample from the OASIS dataset.}
+\caption{Voxel intensity distributions of 10 randomly chosen sample from the OASIS dataset.}
 \label{fig:intensity_normalization}
 \end{figure}
 
-During the N4 bias correction step, we took care of uniforming the intensity of a given tissue across the whole image. The goal of this step is to do the same but across the whole dataset. To do so we will detect the intensity of a white matter pixel and set it to one. We can see in figure \ref{fig:before_intensity_normalization} how much the pixels intensity can vary from two samples taken by different machines. The output of the normalization as shown in figure \ref{fig:after_intensity_normalization} is now much uniform across machines and therefore less prone to overfitting.
+During the N4 bias correction step, we took care of uniforming the intensity of a given tissue across the whole image. The goal of this step is to do the same but across the whole dataset. To do so we will detect the intensity of a white matter voxel and set it to one. We can see in figure \ref{fig:before_intensity_normalization} how much the intensity of the voxels can vary from two samples taken by different machines. The output of the normalization as shown in figure \ref{fig:after_intensity_normalization} is now much more uniform across machines and therefore less prone to overfitting.
 
 \begin{figure}
     \centering
@@ -177,12 +178,12 @@ During the N4 bias correction step, we took care of uniforming the intensity of 
 \label{fig:elastic_transform}
 \end{figure}
 
-This step does not really belong to the preprocessing pipeline, as augmentation is done on the training set only. One technique to overcome overfiting is to create new training samples for which we already know the labels. This trick can be applied to any kind of data, but its is often used when dealing with pictures. Usually one applies a transformation to the input image, such that the model activity changes when the new generated image is shown to it, but the transformation should be gentle enough not to change the label. 
-For example, it is known that CNN are translation equivalent, but not equivalent to rotation, therefore people often apply small random rotation to the image in order to augment their training set. Note that the transformation you apply should be chosen carefully, as for example when dealing with a dataset such as MNIST if you apply rotation of more than 90 degrees then it might become impossible for the network to distinguish between a rotated $6$ and a rotated $9$. 
-In our case we choose to apply random noise, small pixel intensity variation, flipping, small rotation and elastic transform. Figure \ref{fig:data_augmentation_example} shows the different effect of the transformation on a brain scan.
+This step does not really belong to the preprocessing pipeline, as augmentation is done on the training set only. One technique to overcome overfitting is to create new training samples for which we already know the labels. This trick can be applied to any kind of data, but it is often used when dealing with pictures. Usually one applies a transformation to the input image, such that the model activity changes when the newly generated image is shown to it, but the transformation should be gentle enough not to change the label. 
+For example, it is known that CNN are translation equivariant, but not equivariant to rotations, therefore people often apply small random rotation to the image in order to augment their training set. Note that the transformation you apply should be chosen carefully, as for example when dealing with a dataset such as MNIST if you apply a rotation of more than 90 degrees then it might become impossible for the network to distinguish between a rotated $6$ and a rotated $9$. 
+In our case, we choose to apply random noise, small voxel intensity variation, flipping, small rotation and elastic transform. Figure \ref{fig:data_augmentation_example} shows the different effect of the transformation on a brain scan.
 
 \footnotetext{\href{https://gist.github.com/erniejunior/601cdf56d2b424757de5}{https://gist.github.com/erniejunior/601cdf56d2b424757de5}}
-While most of the transformation apply are common, the elastic one is less known. It consist of applying a smooth deformation to the image. Figure \ref{fig:elastic_transform} illustrate that transformation on a grid.
+While most of the transformation applies are common, the elastic one is less known. It consists of applying a smooth deformation to the image. Figure \ref{fig:elastic_transform} illustrate that transformation on a grid.
 
 
 \begin{figure}
