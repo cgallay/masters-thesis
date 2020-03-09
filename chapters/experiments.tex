@@ -1,5 +1,6 @@
 \chapter{Experiments}
-This chapter explains how the models were trained in order to find the best performances and a nice explanation map.
+\label{chap:experiments}
+This chapter explains how the models were trained in order to find the best performances and a explanation map.
 \section{Training}
 Training of the models was done using the Adam\cite{kingma2014adam} optimizer and the pytorch\cite{pytorch_paszke2017automatic} library. An implementation in tensorflow\cite{tensorflow_45166} has been done but PyTorch was chosen as we needed to explain the model using the fullGrad\cite{fullgradient} GitHub repository.
 
@@ -96,7 +97,7 @@ Figure \ref{fig:roc_and_pr_curve} shows the ROC and PR curves to gain a better s
 \newpage
 \section{Model Output Explanation}
 
-As shown in figure \ref{fig:alzheimerbrain}, Alzheimer disease tends to severely damage some specific regions of the brain. One of those regions is the hippocampus which serves at the creation of new memories. We would expect from a good explainer that indeed it highlight this specific region when explaining the output for a damaged brain. Figure \ref{fig:dem_vs_control_age_pred} compares the outputs of the 3 algorithms we implemented on different slices of a damaged brain. In fact, we choose slices where the hippocampus is visible and observe that while Shap explanation is difficult to interpret. Both GradCam and FullGrad have some focus on the hippocampus. It is especially visible with the output of the fullgrad algorithm where its maximal attention on that slice is actually located inside the hippocampus. For the rest of the report, we chose to work with fullgrad as its output makes more sense to us and is also sharper. The brain viewer implemented in annexe \ref{chap:brainviewer} is designed to work with a fullgrad saliency map. 
+As shown in figure \ref{fig:alzheimerbrain}, Alzheimer disease tends to severely damage some specific regions of the brain. One of those regions is the hippocampus which serves at the creation of new memories. We would expect from a good explainer that indeed it highlight this specific region when explaining the output for a damaged brain. Figure \ref{fig:dem_vs_control_age_pred} compares the outputs of the 3 algorithms we implemented on different slices of a damaged brain. In fact, we chose slices where the hippocampus is visible and observe that while Shap explanation is difficult to interpret, we observe that both GradCam and FullGrad have some focus on the hippocampus. It is especially visible with the output of the fullgrad algorithm where its maximal attention on that slice is actually located inside the hippocampus. For the rest of the report, we chose to work with fullgrad as its output makes more sense to us and is also sharper. The brain viewer implemented in annexe \ref{chap:brainviewer} is designed to work with a fullgrad saliency map. 
 
 
 \begin{figure}

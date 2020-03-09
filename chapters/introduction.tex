@@ -1,30 +1,45 @@
 \chapter{Introduction}
-In this chapter, the reader is introduced to the dementia disease, the current methods for its detection, the consequences and what scientists think might be the cause of the disease. 
-
-\section{Dementia}
-
-Dementia is not a specific disease but an overall term used to group all diseases that are characterised by a decrease in memory, thinking capabilities, language and other skills related to the thought. With between 60 and 80 percents of the cases, Alzheimer is the most common disease-causing dementia. Despite the fact that dementia is affecting mostly old people, it is not a normal stage of life and therefore should not be seen as severe ageing. 
-
-\begin{figure}
- \centering
- \includegraphics[width=400]{figures/Alzheimer_brain.jpg}
- \caption[Test]{Illustration\footnotemark of the differences between a healthy brain and the brain of someone with Alzheimer disease.}
- \label{fig:alzheimerbrain}
-\end{figure}
-\footnotetext{\href{https://www.keepmemoryalive.org/brain-science/alzheimers-brain}{https://www.keepmemoryalive.org/brain-science/alzheimers-brain}}
-
-Figure \ref{fig:alzheimerbrain} highlights the visual differences that practitioners can use to distinguish a Alzheimer patient from a control one. Knowing which part of the brain is affected by the disease will help us evaluate our model. We expect a good model to focus his attention on those zone in order to make its prediction. In fact, one would more easily trust a model that has the same attention as a human.
-
-\section{Current Methods}
-Most of the current models for detecting dementia are based on comparing some healthy brains with the one from the patient. This requires all the brain scans to be aligned, such that a voxel at a specific coordinate is mapping to the same brain region on both images. Section \ref{sec:coregistration} describes in details how to align two images.
-
-TODO: ADD ANALYSIS
+This chapter introduce the context with which the study has been conducted. The problem is then formally stated in section~\ref{sec:problem_statement} and finally the structure of the thesis is presented in section~\ref{sec:structure} 
 
 
-\section{Age vs. Dementia}
 
-It is tempting to see dementia damaged brain as an over aged one. In both cases, we observe a loss of white matter due to neuron death. Even though scientists currently do not know exactly what causes the disease, they do observe the presence of bio-marker such as plaque and tangle \cite{alzheimer_past_present_future}.
+\section{Motivation}
+\label{sec:motivation}
+According to the World Health Organization (WHO)\footnote{\href{https://www.who.int/news-room/fact-sheets/detail/dementia}{https://www.who.int/news-room/fact-sheets/detail/dementia}}, there is currently around 50 million people suffering from dementia around the word. Despite the already high number and an expectation of 152 million people by 2050, there is as of today not treatment cure or even alter its progression. However the quality of life of the patients can be improved when the disease is detected as early as possible. There is therefore a needs to build tools that can predict whether a person has the hilliness or not.
 
-Despite the differences, people have built simple dementia detectors by training an age predictor on healthy brains. It appears that their predictor performs badly on dementia's brains and tend to over age people with the disease. As we trained an age predictor on healthy brains, in annexe \ref{chap:age_pred} we took the opportunity to try it on our data. In fact, as shown in the annexe, it turns out that on our data, such a predictor would perform badly. This tends to show that indeed the assumption is wrong and that dement person does not have over-agedd brain.
+There is currently no precise explanation on the reason why people develops dementia. Overall  there is a need of better understand the disease. This is why developing a model that is able to give a prediction as well as an explanation is important.  
 
-In general, it would be more interesting to build a model that is able to detect dementia regardless the patient's age, therefore being as little biased as possible with respect to age.
+
+\section{Problem Statement}
+\label{sec:problem_statement}
+This thesis aims at provides an automatic diagnoses for early dementia detection. The outcome model has the constrain of having reasonable performances in terms of the different losses and metrics defined in section~\ref{sec:losses_metrics} and must be able to explain its predictions.
+
+In our approach, we chose to work with three dimensional scan of the brain as input.   raw Magnetic Resonance Images (MRI) of the patient brain. This data is a scan that encode the structure of the brain. 
+
+Our final goal is in a first phase to feed these MRI to the Convolutional Neural Network defined in section~\ref{sec:standard_cnn} in order to obtain a prediction. In a second phase explain the previously obtained prediction using the fullgrad algorithm explain in section~\ref{sec:fullgrad}. Finally the outcome of the two previous phase are visualized using the brian viewer from annexe~\ref{chap:brainviewer}.
+
+
+
+\section{Research Question & Contributions}
+The contribution of this thesis is summarized by the following questions:
+\begin{itemize}
+    \item How can MRI scans be used to predict dementia?
+    \item Which information does a deep learning model use in order to make its prediction? 
+\end{itemize}
+
+In order to answer these questions the thesis provides the following contribution
+\begin{itemize}
+    \item A prepocessing pipeline that prepare the MRI brain scans for a deep learning model.
+    \item A deep learning model that predict if a brain scans is dement.
+    \item A model that visually shows the region of the brain the model used in order to give its prediction
+    \item A brain viewer tool that any non machine learning expert can use to analyse the output and the explanation of the model.  
+\end{itemize}
+
+
+
+\section{Thesis Structure}
+\label{sec:structure}
+This thesis starts with chapter~\ref{chap:background} which quickly introducing the reader to the dementia diseases in section \ref{sec:medical_background} before listing the different machine learning blocks that will be used during the entire work. This chapter end itself by describing in section~\ref{sec:model_explaination} the different techniques used to gain a better understanding to the model's outputs. The following chapter~\ref{chap:data} describes the type of data used and how it has been preporcessed for the models. The thesis continues with chapter~\ref{chap:models} which presents the different models and their architecture. 
+In chapter~\ref{chap:experiments} we briefly explain how the models were train and the performances obtained from them. This chapter ends by showing the results on models explainability.
+
+Finally in the last chapter~\ref{chap:conculusion} we conclude the thesis and propose some future work that could be done to improve either the performance or the explanabilty of the models.
