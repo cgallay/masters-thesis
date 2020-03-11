@@ -1,44 +1,42 @@
 \chapter{Introduction}
-This chapter introduce the context in which the study has been conducted in section~\ref{sec:motivation}. The problem is then formally stated in section~\ref{sec:problem_statement} and finally the structure of the thesis is presented in section~\ref{sec:structure} 
-
 
 \section{Motivation}
 \label{sec:motivation}
-According to the World Health Organization (WHO)\footnote{\href{https://www.who.int/news-room/fact-sheets/detail/dementia}{https://www.who.int/news-room/fact-sheets/detail/dementia}}, there is currently around 50 million people suffering from dementia around the word. Despite the already high number and an expectation of 152 million people by 2050, there is as of today not treatment to cure or even alter its progression. However the quality of life of the patients can be improved when the disease is detected as early as possible. There is therefore a needs to build tools that can predict whether a person has the hilliness or not.
+According to the World Health Organization (WHO)\footnote{\href{https://www.who.int/news-room/fact-sheets/detail/dementia}{https://www.who.int/news-room/fact-sheets/detail/dementia}}, there are currently around 50 million people suffering from dementia around the word. Despite the already high number of cases and an expectation of 152 million patients by 2050, there is, as of today, no treatment to cure the disease or slow its progression down. However, the quality of life of the patients can be improved when the disease is detected in an early stage. There is therefore a need to build tools that can predict whether a person has the disease or not.
 
-There is currently no precise explanation on the reason why people develops dementia. Overall  there is a need of better understand the disease. This is why developing a model that is able to give a prediction as well as an explanation is important.  
+Additionally, there is currently no clear understanding of the causes of dementia. Overall  there is a need for a better understanding of the disease. This is why it is interesting to develop a model that is able to give a prediction and an explanation.
 
 
 \section{Problem Statement}
 \label{sec:problem_statement}
-This thesis aims at provides an automatic diagnoses for early dementia detection. The outcome model has the constrain of having reasonable performances in terms of the different losses and metrics defined in section~\ref{sec:losses_metrics} and must be able to explain its predictions.
+This thesis aims at provides a machine learning model to automatically detect dementia. The outcome model has the constrain of having reasonable performances in terms of the different losses and metrics defined in section~\ref{sec:losses_metrics} and must be able to explain its predictions.
 
-In our approach, we chose to work with three dimensional scan of the brain as input. Namely the raw Magnetic Resonance Images (MRI) of the patient brain. This data is a scan that encode the structure of the brain. 
+In our approach, we chose to work with a three-dimensional scan of the brain as input. Namely the raw Magnetic Resonance Images (MRI) of the patient brain. This data is a scan that encodes the structure of the brain. 
 
-Our final goal is in a first phase to feed these MRI to the Convolutional Neural Network defined in section~\ref{sec:standard_cnn} in order to obtain a prediction. In a second phase, we explain the previously obtained prediction using the fullgrad algorithm explain in section~\ref{sec:fullgrad}. Finally the outcome of the two previous phase are visualized using the brian viewer from annexe~\ref{chap:brainviewer}.
+Our final goal is in a first phase to feed these MRI to the Convolutional Neural Network defined in section~\ref{sec:standard_cnn} in order to obtain a prediction. In a second phase, we explain the previously obtained prediction using the fullgrad algorithm explains in section~\ref{sec:fullgrad}. Finally, the outcome of the two previous phases are visualized using the brain viewer from annex~\ref{chap:brainviewer}.
 
 
 
 \section{Research Question & Contributions}
-The contribution of this thesis is summarized by the following questions:
+This thesis tackles the following questions:
 \begin{itemize}
     \item How can MRI scans be used to predict dementia?
     \item Which information does a deep learning model use in order to make its prediction? 
 \end{itemize}
 
-In order to answer these questions the thesis provides the following contribution
+In order to answer these questions, the thesis provides the following contribution
 \begin{itemize}
-    \item A prepocessing pipeline that prepare the MRI brain scans for a deep learning model.
-    \item A deep learning model that predict if a brain scans has dementia.
-    \item A model that visually shows the region of the brain the model used in order to give its prediction
-    \item A brain viewer tool that any non machine learning expert can use to analyse the output and the explanation of the model.  
+    \item We present a prepocessing pipeline that prepares the MRI brain scans for a deep learning model.
+    \item We introduce a deep learning model that predicts if a brain scans has dementia.
+    \item We further present a model that visually shows the region of the brain the model used in order to give its prediction
+    \item We develop a brain viewer tool that any non-machine learning expert can use to analyze the output and the explanation of the model.  
 \end{itemize}
 
 
 
 \section{Thesis Structure}
 \label{sec:structure}
-This thesis starts with chapter~\ref{chap:background} which quickly introduces the reader to the dementia diseases in section \ref{sec:medical_background} before listing the different machine learning blocks that will be used during the entire work. This chapter end itself by describing in section~\ref{sec:model_explaination} the different techniques used to gain a better understanding of the model's outputs. The following chapter~\ref{chap:data} describes the type of data used and how it has been preporcessed for the models. The thesis continues with chapter~\ref{chap:models} which presents the different models and their architecture. 
-In chapter~\ref{chap:experiments} we briefly explain how the models were train and the performances obtained from them. This chapter ends by showing the results on models explainability.
+This thesis starts with chapter~\ref{chap:background} which quickly introduces the reader to the dementia diseases in section \ref{sec:medical_background} before listing the different machine learning blocks that will be used during the entire work. This chapter end itself by describing, in section~\ref{sec:model_explaination}, the different techniques used to gain a better understanding of the model's outputs. The following chapter~\ref{chap:data} describes the type of data used and how it has been preporcessed for the models. The thesis continues with chapter~\ref{chap:models}, which presents the different models and their architecture. 
+In chapter~\ref{chap:experiments} we briefly explain how the models were trained and the performances obtained from them. This chapter ends by showing the results on models explainability.
 
-Finally in the last chapter~\ref{chap:conculusion} we conclude the thesis and propose some future work that could be done to improve either the performance or the explanabilty of the models.
+Finally, in the last chapter~\ref{chap:conculusion} we conclude the thesis and propose some future work that could be done to improve either the performance or the explanabilty of the models.

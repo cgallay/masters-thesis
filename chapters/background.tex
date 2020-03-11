@@ -2,7 +2,7 @@
 \label{chap:background}
 
 \section{Medical Background}
-This section introduce the reader to the dementia disease, some of its symptoms and explain why it is not a normal stage of life. 
+This section introduces the reader to the dementia disease, some of its symptoms and explain why it is not a normal stage of life. 
 
 \label{sec:medical_background}
 
@@ -29,13 +29,10 @@ TODO: ADD ANALYSIS
 
 It is tempting to see dementia damaged brain as an over-aged one. In both cases, we observe a loss of white matter due to neuron death. Even though scientists currently do not know exactly what causes the disease, they do observe the presence of biomarkers such as plaque and tangle \cite{alzheimer_past_present_future}.
 
-Despite the differences, people have built simple dementia detectors by training an age predictor on healthy brains. It appears that their predictor performs badly on dementia's brains and tends to over age people with the disease. As we trained an age predictor on healthy brains, in annex~\ref{chap:age_pred} we took the opportunity to try it on our data. In fact, as shown in the annex, it turns out that on our data, such a predictor would perform badly. This tends to show that indeed the assumption is wrong and that the people with dementia do not have over-aged brain.
+Despite the differences, people have built simple dementia detectors by training an age predictor on healthy brains. It appears that their predictor performs badly on dementia's brains and tends to overage people with the disease. As we trained an age predictor on healthy brains, in annex~\ref{chap:age_pred} we took the opportunity to try it on our data. In fact, as shown in the annex, it turns that our predictor is not able to distinguish between healthy and sick brains. This tends to show that indeed the assumption is wrong and that the people with dementia do not have an overaged brain.
 
-In general, it would be more interesting to build a model that is able to detect dementia regardless of the patient's age, therefore reducing as much as possible the bias of the model towards age..
+In general, it would be more interesting to build a model that is able to detect dementia regardless of the patient's age, therefore reducing as much as possible the bias of the model towards age.
 
-
-
-This chapter describes the different building blocks to do deep learning models, the metrics to evaluate them once trained and how the output of a model can be explained.
 
 \section{Model Blocks}
 This section defines fully connected and convolutional layers which are the two machine learning blocks that we are using in this project.
@@ -43,20 +40,21 @@ This section defines fully connected and convolutional layers which are the two 
 
 One of the most basic components when building a deep learning model is the fully connected (FC) layer. Mathematically it is defined as:
 $$Y=X*W + b$$
-Where the outputs $Y$ are expressed as a linear combination of the inputs $X$ using a weight matrix $W$ and a bias $b$. It has been proven by the well-known \textbf{Universal approximation theorem}\cite{universal_approx_theorem_10.5555/70405.70408} that such layers combine with non-linear functions can approximate in theory any continuous functions.
+Where the outputs $Y$ are expressed as a linear combination of the inputs $X$ using a weight matrix $W$ and a bias $b$. It has been proven by the well-known \textit{universal approximation theorem}\cite{universal_approx_theorem_10.5555/70405.70408} that such layers combine with non-linear functions can approximate in theory any continuous functions.
 
 \subsection{Convolutional Neural Networks}
 
-The fully connected layer presented above is really general and works well with a large variety of data as no assumption is made. Unfortunately, for certain types of data, using FC layers can quickly become unscalable. For example, when dealing with images of size 200 by 200 in color, a layer with 100 features output would already require 12'000'100 parameters to be learned (including bias).
+The fully connected layer presented above is really general and works well with a large variety of data. Unfortunately, for certain types of data, using FC layers can quickly become unscalable. For example, when dealing with images of size 200 by 200 in color, a layer with 100 features output would already require 12'000'100 parameters to be learned (including bias). 
 
-Convolutional Networks\cite{cnn_original_paper_10.5555/646469.691875} were introduced by LeCun to minimize the processing done on the input image and let the network learn the right set of features. For it to be working, convolutional layers have to make assumptions on the data. One is spatial locality, where the pixels close to each other are more likely to be correlated than distant ones. From this assumption, CNN can be seen as small FC layers that is applied at multiple locations across the image. These are usually called kernels. 
+Convolutional Networks\cite{cnn_original_paper_10.5555/646469.691875} were introduced by LeCun to minimize the processing done on the input image and let the network learn the right set of features. For it to be working, convolutional layers have to make assumptions on the data. One is spatial locality, where the pixels close to each other are more likely to be correlated than distant ones. In fact, CNN can be seen as small FC layers that are applied at multiple locations across the image. These are usually called kernels. The assumptions made by CNN reduce the number of parameter of the network. This helps for regularization and the network requires less data to be train.
+
 
 This way of computing the inputs does have multiple advantages, one of them being weight-sharing. The kernel being applied at multiple locations, the weights learned to extract a feature in one location are by construction reused to extract the same features everywhere else in the image. Another property of CNN that comes directly from their formulation is the fact that translating the input, results in a translated output, this is called translation equivariance. Nowadays, CNN has become the standard way of processing images.
 \begin{wrapfigure}{r}{0.6\textwidth}
  \centering
  \includegraphics[width=.9\linewidth]{figures/3D_CNN_example.png}
  \captionsetup{width=.9\linewidth}
- \caption[3D_CNN_example]{Illustration\footnotemark{} of a 3D CNN Network}
+ \caption[3D_CNN_example]{Illustration\footnotemark{} of a 3D CNN}
  \label{fig:3d_cnn_example}
 \end{wrapfigure}
 \footnotetext{\href{https://www.researchgate.net/publication/330912338_ECNN_Activity_Recognition_Using_Ensembled_Convolutional_Neural_Networks}{https://www.researchgate.net/publication/330912338\_ECNN\_Activity\_Recognition\_Using\_Ensembled\_Convolutional\_Neural\_Networks}}
@@ -73,15 +71,19 @@ This section lists the different metrics, and losses used during this project.
 \label{sec:binary_cross_entropy}
 This loss is used to measure the error made on binary classification.
 $$ L = -(y\log(p) + (1-y)\log(1-p))$$
+Where $p$ is the predicted probability of belonging to the class made by network and $y$ the binarized true label. 
 
 \subsection{Mean Square Error (MSE)}
 \label{sec:mean_square_error}
 This loss is used to penalize errors made by a network for example in the case of a regression. It works with continuous values and is defined as:
 $$ MSE = \frac{\sum_{i=1}^{n} (Y_i - \^{Y}_i)^2}{n}$$
-Where $\^{Y}_i$ is the predicted value and $Y_i$ is the target value.
+
+Where $\^{Y}_i$ is the predicted value and $Y_i$ is the target value, $n$ is the total number of samples and $i$ the running index of a sample in the summation.
 \subsection{Mean Absolute Error (MAE)}
 This metric is really similar to the MSE, but we take the absolute value of the error instead of taking the square.
 $$ MAE = \frac{\sum_{i=1}^{n} |(Y_i - \^{Y}_i)|}{n}$$
+
+Where $\^{Y}_i$ is the predicted value and $Y_i$ is the target value, $n$ is the total number of samples and $i$ the running index of a sample in the summation.
 \subsection{Accuracy}
 The accuracy is one of the simplest metrics to evaluate a model. It is computed by counting the number of correctly classified samples divided by the total number of samples.
 
@@ -101,7 +103,7 @@ $$Precision = \frac{TP}{TP +  FP}$$
 
 Recall on the other hands can be computed as below and gives a sense of how likely the model is to detect dementia when the patient is indeed ill.
 $$Recall =\frac{TP}{TP + FN}$$
-In a medical situation, it might be more interesting to have a model with a good recall at the expense of precision. The consequences of being detected as healthy when in fact the patient suffers from the disease are often worse than the opposite. 
+In a medical situation, it might be more interesting to have a model with a good recall at the expense of precision, namely having more false positive. The consequences of being detected as healthy when in fact the patient suffers from the disease are often worse than the opposite.
 
 Accuracy can also be computed with these terms.
 
@@ -110,7 +112,7 @@ $$Accuracy = \frac{TP + TN}{TP + TN + FP + FN}$$
 
 
 \subsection{ROC - AUC}
-Receiver Operating Characteristic allows for plotting a chart like figure~\ref{fig:roc_curve} that visualizes the precision and recall at different thresholds. From that curve, we can compute the Area Under the Curve (AUC) which is a good metric to compare different models. Usually, a bigger AUC means a better model, the rise of the curve is even more important.
+Receiver Operating Characteristic allows for plotting a chart like figure~\ref{fig:roc_curve} that visualizes the true positive rate against the false positive rate at different thresholds. From that curve, we can compute the Area Under the Curve (AUC) which is a good metric to compare different models. Usually, a bigger AUC means a better model, the rise of the curve is even more important.
 In an ideal situation, we expect the curve to touch the top left corner and have an AUC of 1.
 
 \subsection{PR - Curve}
@@ -121,15 +123,15 @@ The Precision and Recall curve is often used in replacement of the ROC curve whe
 There exist multiple ways to explain the output of a model. We tried different approaches that are either specific to computer vision tasks or more general and compared them for our specific task of dementia prediction.
 
 \subsection{Shap}
-Shap is an algorithm based on Game Theory that aims to predict the contribution of a feature to increase the confidence of a model. Its mathematical background lies on the Shapley value which basically is the average of the marginal contributions across all permutations of features.
+Shap is an algorithm based on Game Theory that aims to predict the contribution of a feature to increase the confidence of a model. Its mathematical background lies on the Shapley value which basically is the average of the marginal contributions across all permutations of features. Figure~\ref{fig:shap_example} shows what the outcome of the shap algorithm look link on image data.
 
-\begin{wrapfigure}{l}{0.7\textwidth}
+\begin{figure}
  \centering
  \includegraphics[width=.9\linewidth]{figures/shap_mnist_image_plot.png}
  \captionsetup{width=.9\linewidth}
  \caption[ShapExample]{Example of shap value from the Shap repo\footnotemark{}. Each column represents the shap output for a specific class (in a sorted order).}
  \label{fig:shap_example}
-\end{wrapfigure}
+\end{figure}
 \footnotetext{\href{https://github.com/slundberg/shap}{https://github.com/slundberg/shap}}
 
 The library\cite{shap_lundberg2017unified} works with different kinds of models but it was tested with the GradientExplainer as DeepExplainer is not fully compatible with Pytorch yet. Compared to some other explainer algorithm, Shap presents the advantage of giving a negative value for a feature which has a negative correlation with the output. The output obtained by that process can be seen in figure~\ref{fig:explainer_compared}, but we can see that it does not give a good interpretation in comparison with other techniques.
@@ -146,7 +148,7 @@ When the input is an image, people are interested in finding out which part of t
     \label{fig:grad_cam_multilayer}
 \end{figure}
 
-The Grad-Cam\cite{grad_cam_2019} algorithm is looking for activation of the neurons at a specific layer. To do so the input is processed in a forward pass by the network until the final prediction is made. The gradient of the predicted class with respect to the layer of interest is then computed. It is then pooled across its spatial dimension in order to get a value of layer importance per channel. The features extracted from the image are then multiplied channels wise by the pooled gradient in order to get an activation map (also called saliency map) of the same shape at the output of the layer of interest. This can be mapped to the original image shape by interpolation. For visual purposes, we choose to do a trilinear interpolation, which is the extension of the bilinear interpolation in three dimensions. A visual comparison of the outcome can be seen in figure~\ref{fig:grad_cam_multilayer}. This algorithm is well schematized in figure~\ref{fig:grad_cam_arch}.
+The Grad-Cam\cite{grad_cam_2019} algorithm is looking for activation of the neurons at a specific layer. To do so the input is processed in a forward pass by the network until the final prediction is made. The gradient of the predicted class with respect to the layer of interest is then computed. It is then pooled across its spatial dimension in order to get a value of layer importance per channel. The features extracted from the image are then multiplied channel-wise by the pooled gradient in order to get an activation map (also called saliency map) of the same shape at the output of the layer of interest. This can be mapped to the original image shape by interpolation. For visual purposes, we choose to do a trilinear interpolation, which is the extension of the bilinear interpolation in three dimensions. A visual comparison of the outcome can be seen in figure~\ref{fig:grad_cam_multilayer}. This algorithm is well schematized in figure~\ref{fig:grad_cam_arch}.
 
 \begin{figure}
     \centering
@@ -155,7 +157,7 @@ The Grad-Cam\cite{grad_cam_2019} algorithm is looking for activation of the neur
     \label{fig:grad_cam_arch}
 \end{figure}
 
-When the model goal is to perform multi-class classification, it makes sense to apply a Relu function to the activation map in order to remove the negative value that could be explaining any other classes in the image. In our case, as we are dealing with a binary classification task, it might make sense not to remove negative values and let a clinician decide which map is more useful for him.
+When the model goal is to perform multi-class classification, it makes sense to apply a Relu function to the activation map in order to remove the negative value that could be explaining any other classes in the image. In our case, as we are dealing with a binary classification task, it might make sense not to remove negative values and let a clinician decides which map is more useful for him.
 
 The output size of the layer one tries to explain will determine the granularity of the activation map. The artifact due to shrinkage of the network can be seen in figure~\ref{fig:grad_cam_multilayer}. This imposes a trade-off when constructing the model, either last convolution layer output is too small in order to keep a good focused explanation or it is too big but this induces a bigger model which then needs more data to be trained.
 
