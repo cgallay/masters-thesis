@@ -4,7 +4,7 @@ This chapter explains how the models were trained in order to obtain the best pe
 \section{Training}
 Training of the models was done using the Adam\cite{kingma2014adam} optimizer and the pytorch\cite{pytorch_paszke2017automatic} library. An implementation in tensorflow\cite{tensorflow_45166} has been done but PyTorch was chosen as we needed to explain the model using the fullGrad\cite{fullgradient} GitHub repository. For the loss we chose Binary Cross Entropy as the task we are solving is a binary classification.
 
-Training the different models required to fine turn some hyperparameter. Figure~\ref{fig:fine_tune_learning_rate} shows how the test loss can be used to compare the performances of the model when trained with different learning rates. Here we see that choosing a learning rate of \num{5e-05} seems to be the best decision to train the model. The tuning and hyperparameters for the other models were selected using a similar approach.  
+Training the different models required to fine turn some hyperparameter. Figure~\ref{fig:fine_tune_learning_rate} shows how the test loss can be used to compare the performances of the model when trained with different learning rates. Here we see that choosing a learning rate of \num{5e-05} seems to be the best decision to train the model. 
 
 \begin{figure*}
     \centering
@@ -12,14 +12,14 @@ Training the different models required to fine turn some hyperparameter. Figure~
         \centering
         \includegraphics[width=\textwidth]{figures/Experiements/training_3D_CNN_GAP_lr_1e-05.pdf}
         \caption[Network2]%
-        {{\small lr=0.00001}}    
+        {{\small lr=\num{1e-05}}}    
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.475\textwidth}  
         \centering 
         \includegraphics[width=\textwidth]{figures/Experiements/training_3D_CNN_GAP_lr_5e-05.pdf}
         \caption[]%
-        {{\small lr=0.00005}}    
+        {{\small lr=\num{5e-05}}}    
         \label{fig:best_lr}
     \end{subfigure}
     \vskip\baselineskip
@@ -34,7 +34,7 @@ Training the different models required to fine turn some hyperparameter. Figure~
         \centering 
         \includegraphics[width=\textwidth]{figures/Experiements/training_3D_CNN_GAP_lr_0.0002.pdf}
         \caption[]%
-        {{\small lr=0.0005}}    
+        {{\small lr=0.0002}}    
     \end{subfigure}
     \caption[ The average and standard deviation of critical parameters ]
     {\small Comparison of the train and test loss for different learning rate across 200 epochs of training. } 

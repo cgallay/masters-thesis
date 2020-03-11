@@ -17,19 +17,19 @@ Dementia is not a specific disease but an overall term used to group all disease
 \end{figure}
 \footnotetext{\href{https://www.keepmemoryalive.org/brain-science/alzheimers-brain}{https://www.keepmemoryalive.org/brain-science/alzheimers-brain}}
 
-Figure~\ref{fig:alzheimerbrain} highlights the visual differences that practitioners can use to distinguish a Alzheimer patient from a control one. Knowing which part of the brain is affected by the disease will help us evaluate our model. We expect a good model to focus his attention on these zone in order to make its prediction. In fact, one would more easily trust a model that has the same attention zones as a human.
+Figure~\ref{fig:alzheimerbrain} highlights the visual differences that practitioners can use to diagnose a Alzheimer patient. Knowing which part of the brain is affected by the disease will help us evaluate our model. We expect a good model to focus his attention on these brain areas in order to make its prediction. In fact, one would more easily trust a model that has the same attention locations as a clinician, in agreement with the medical knowledge.
 
 \subsection{Current Methods}
 Most of the current models for detecting dementia are based on comparing some healthy brain scans with the one from the patient. This requires all the brain scans to be aligned, such that a voxel at a specific coordinate is mapping to the same brain region on both images. Section~\ref{sec:coregistration} describes in detail how to align two images.
 
-TODO: ADD ANALYSIS
+TODO: ADD ANALYSIS AND ADD citation
 
 
 \subsection{Age vs. Dementia}
 
-It is tempting to see dementia damaged brain as an over-aged one. In both cases, we observe a loss of white matter due to neuron death. Even though scientists currently do not know exactly what causes the disease, they do observe the presence of biomarkers such as plaque and tangle \cite{alzheimer_past_present_future}.
+It is tempting to see dementia damaged brain as an extreme ageing process. In both cases, we observe a loss of white matter due to neuron death. Even though scientists currently do not know exactly what causes the disease, they do observe the presence of biomarkers such as plaque and tangle \cite{alzheimer_past_present_future}.
 
-Despite the differences, people have built simple dementia detectors by training an age predictor on healthy brains. It appears that their predictor performs badly on dementia's brains and tends to overage people with the disease. As we trained an age predictor on healthy brains, in annex~\ref{chap:age_pred} we took the opportunity to try it on our data. In fact, as shown in the annex, it turns that our predictor is not able to distinguish between healthy and sick brains. This tends to show that indeed the assumption is wrong and that the people with dementia do not have an overaged brain.
+Despite the differences, researcher\cite{brain_age_10.3389/fneur.2019.00789} have built simple dementia detectors by training an age predictor on healthy brains. It appears that their predictor performs badly on dementia's brains and tends to overage people with the disease. As we trained an age predictor on healthy brains, in annex~\ref{chap:age_pred} we took the opportunity to try it on our data. In fact, as shown in the annex, it turns that our predictor is not able to distinguish between healthy and sick brains as it can be seen in figure~\ref{fig:dem_vs_control_age_pred}. This tends to show that indeed the assumption is wrong and that the people with dementia do not have an overaged brain.
 
 In general, it would be more interesting to build a model that is able to detect dementia regardless of the patient's age, therefore reducing as much as possible the bias of the model towards age.
 
@@ -44,7 +44,7 @@ Where the outputs $Y$ are expressed as a linear combination of the inputs $X$ us
 
 \subsection{Convolutional Neural Networks}
 
-The fully connected layer presented above is really general and works well with a large variety of data. Unfortunately, for certain types of data, using FC layers can quickly become unscalable. For example, when dealing with images of size 200 by 200 in color, a layer with 100 features output would already require 12'000'100 parameters to be learned (including bias). 
+The fully connected layer presented above is really general and works well with a large variety of data. Unfortunately, for certain types of data, using FC layers can quickly become unscalable. For example, when dealing with images of size 200 by 200 in color (RGB), a layer with 100 features output would already require 12'000'100 parameters to be learned (including bias). 
 
 Convolutional Networks\cite{cnn_original_paper_10.5555/646469.691875} were introduced by LeCun to minimize the processing done on the input image and let the network learn the right set of features. For it to be working, convolutional layers have to make assumptions on the data. One is spatial locality, where the pixels close to each other are more likely to be correlated than distant ones. In fact, CNN can be seen as small FC layers that are applied at multiple locations across the image. These are usually called kernels. The assumptions made by CNN reduce the number of parameter of the network. This helps for regularization and the network requires less data to be train.
 
@@ -60,7 +60,7 @@ This way of computing the inputs does have multiple advantages, one of them bein
 \footnotetext{\href{https://www.researchgate.net/publication/330912338_ECNN_Activity_Recognition_Using_Ensembled_Convolutional_Neural_Networks}{https://www.researchgate.net/publication/330912338\_ECNN\_Activity\_Recognition\_Using\_Ensembled\_Convolutional\_Neural\_Networks}}
 
 
-In our case, we are dealing with 3D images (MRI) that are way larger than standard 2D ones, therefore it makes even more sense to use 3D convolutions. As illustrated by figure~\ref{fig:3d_cnn_example}, 3D CNN are really similar to 2D CNN. The only difference between 2D CNN and 3D CNN is the shape of the learned kernels, which are three-dimensional in order to fit the input.
+In our case, we are dealing with 3D images (MRI) that are scientifically larger than standard 2D ones, therefore it makes even more efficient to use 3D convolutions. As illustrated by figure~\ref{fig:3d_cnn_example}, 3D CNN are really similar to 2D CNN. The only difference between 2D CNN and 3D CNN is the shape of the learned kernels, which are three-dimensional in order to fit the input.
 
 
 \section{Losses and Metrics}
@@ -139,7 +139,7 @@ The library\cite{shap_lundberg2017unified} works with different kinds of models 
 
 
 \subsection{Grad-Cam}
-When the input is an image, people are interested in finding out which part of the image better explains the prediction. In his paper\cite{zhou2015cnnlocalization} Zhou, proposes a specific model for which he could create a \textit{class activation maps}. This idea has been generalized to work with any model by the authors of grad-cam. 
+When the input is an image, analysts are interested in finding out which part of the image better explains the prediction. In his paper\cite{zhou2015cnnlocalization} Zhou, proposes a specific model for which he could create a \textit{class activation maps}. This idea has been generalized to work with any model by the authors of grad-cam. 
 
 \begin{figure}
     \centering

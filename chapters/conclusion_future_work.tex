@@ -2,8 +2,11 @@
 \label{chap:conculusion}
 
 \section{Conclusion}
-In this study, we built a complete pipeline composed of preprocessing, training, evaluation and explanation to detect dementia from raw MRI scans. The models obtained by training on the OASIS dataset did not attain state-of-the-art performances but have the advantage of providing not only a diagnostic but an explanation about which region of the MRI made the model do such a prediction. In addition to that, we built a responsive and easy-to-use web application in react\footnotemark{} that allows any clinician without any machine learning background to quickly gain insight into the prediction our model made. Thus reducing the black box image from which machine learning is suffering from in the field.  
+In this study, we built a complete pipeline composed of preprocessing, training, evaluation and explanation to detect dementia from raw MRI scans. The models obtained by training on the OASIS dataset did not attain state-of-the-art performances but have the advantage of providing not only a diagnostic but an explanation about which region of the MRI made the model do such a prediction. The model explanation we obtained coincides with the consequences of dementia that specialists observe. In particular, fullgrad was able to spot the importance of the hippocampus in the input image when predicting dementia.
 
+In addition to that, we built a responsive and easy-to-use web application that allows any clinician without any machine learning background to quickly gain insight into the prediction our model made. Thus reducing the black box image from which machine learning is suffering from in the field.  
+
+In conclusion, we show with this thesis that deep learning techniques have reached a sufficient level technical maturity to provide interpretable predictions that can be integrated into research activities and soon into clinician practices.
 
 \section{Future Works}
 Despite the already interesting results and helpful insight on dementia gained by the visualization, this project has been conducted using only a small number of labeled data due to the delay of a custom dataset. To have even more interesting results, the entire pipeline would have to be applied to a much larger dataset for which the labels would be provided.
@@ -11,4 +14,6 @@ Despite the already interesting results and helpful insight on dementia gained b
 We would also like to try the pipeline with some other modalities instead of using the T1 only. For example, it has been shown that the iron density inside a brain is correlated with dementia\footnote{\href{https://www.medicalnewstoday.com/articles/measuring-iron-in-the-brain-can-point-to-dementia}{https://www.medicalnewstoday.com/articles/measuring-iron-in-the-brain-can-point-to-dementia}}. In fact, we think that the cause of dementia might be invisible through a T1 weighted image and that we might currently only be looking at the consequences.
 
 In section~\ref{sec:OASIS} we decided to label all the scans of a patient as having dementia if his latest check-up he was diagnosed with dementia. In a future work, we would like to analyze the output of the model on his early scans and check if the model is able to detect something.
+
+During the period of the project we had the opportunity to show our results to one clinician. A next step would be to confront them to more clinician to hear from them and improve even more the pipeline according to their needs.
 

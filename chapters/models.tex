@@ -33,7 +33,7 @@ With regards to our preprocessing this might, in fact, be a feature not well sui
 \section{Unbiased Model}
 \label{sec:unbias_model}
 
-Often the data has some underlying bias. For example, in the case of Alzheimer’s disease, it appears that old people are more likely to be diagnosed with the disease than young ones (see figure~\ref{fig:OASIS_age_dist}). As this might be debatable whether or not age should be taken into account in order to predict dementia. Experiments on age prediction in annex~\ref{chap:age_pred}, show that age is a hidden feature well present in MRI scan.
+Often the data has some underlying bias. For example, in the case of Alzheimer’s disease, it appears that old people are more likely to be diagnosed with the disease than young ones (see figure~\ref{fig:OASIS_age_dist}). Experiments on age prediction in annex~\ref{chap:age_pred}, show that age is a hidden feature well present in MRI scan.
 
 \begin{wrapfigure}{r}{0.6\textwidth}
  \centering
@@ -49,7 +49,7 @@ Note that by building the model below we are indeed only interested in mitigatin
 
 As illustrated by figure~\ref{fig:unbias_model_schema}, the model is composed of 3 elements. The \textit{feature extractor} extract a fixed number of features from the MRI using convolutional layers in a similar manner as the other models described in chapter~\ref{chap:models}. The \textit{dementia classifier} and \textit{age predictor} are both composed of fully connected layer, with one feature as output. The dementia classifier has a sigmoid function on top of it as its task is a binary classification while the age predictor does not have an activation function on its output.
 
-What makes this model interesting is the way we train it. For that, we need two optimizers, one that works on the weights of the feature extractor and the weights of the age classifier. While the other works on the weights of the age predictor only. In addition to the classic dementia loss (BCE) and the age predictor one (MSE), we define a new loss $L_{3}$ to be: $L_3 = L_{dementia} - \lambda L_{age}$. The final goal is a Min-Max game where the first optimizer tries to minimize the $L_3$ loss while the second one tries to minimize the $L_{age}$ one. This model is inspired by the GAN~\cite{goodfellow2014generative} architecture and requires a lot of fine-tuning to get stable training.
+What makes this model interesting is that we had to use adversarial training. For that, we need two optimizers, one that works on the weights of the feature extractor and the weights of the age classifier. While the other works on the weights of the age predictor only. In addition to the classic dementia loss (BCE) and the age predictor one (MSE), we define a new loss $L_{3}$ to be: $L_3 = L_{dementia} - \lambda L_{age}$. The final goal is a Min-Max game where the first optimizer tries to minimize the $L_3$ loss while the second one tries to minimize the $L_{age}$ one. This model is inspired by the GAN~\cite{goodfellow2014generative} architecture and requires a lot of fine-tuning to get stable training.
 
 
 \section{Autoencoder for Transfer Learning}
@@ -60,3 +60,12 @@ The loss is obtained by comparing the input data with the network output, thus m
 Another similar network is the denoising Autoencoder~\cite{denoising_autoencoder_10.5555/1756006.1953039}. It is trained to remove artificially added noise from its inputs. It has the advantage of not requiring compression of the input in dimensions and is also known to extract better features.
 
 This model has been implemented, but as we did not get many unlabeled data, we did not see any improvement when using it.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{figures/models/AutoEncoder.pdf}
+    \caption[AutoEncoder]{AutoEncoder architecture\footnotemark{} for images.}
+    \label{fig:autoencoder_schema}
+\end{figure}
+
+\footnotetext{\href{https://awesomeopensource.com/project/yu4u/convnet-drawer?categoryPage=11}{https://awesomeopensource.com/project/yu4u/convnet-drawer?categoryPage=11}}
