@@ -48,7 +48,7 @@ The loss used for training is Binary Cross Entropy. But as shown in figure~\ref{
 Note that more could have been done in order to better train the model such as trying another optimizer or even using a learning rate scheduler, but we preferred to focus on explainability instead of performances.
 
 \section{Evaluation}
-The performance of the different model being very similar, we will perform the evaluation on the standard convolution model described in section~\ref{sec:standard_cnn}. This section purely evaluates the model's performance and resistance to age bias but is not interested in the explainability of the model. 
+The performance of the different model being very similar, we will perform the evaluation on the standard convolution model described in section~\ref{sec:standard_cnn}. This section purely evaluates the model's performance and resistance to age bias but is not interested in the explainability of the model. For evaluation of the age predictor please refer to annex~\ref{chap:age_pred}. 
 
 
 \subsection{Bias due to age}
@@ -96,11 +96,13 @@ Figure~\ref{fig:roc_and_pr_curve} shows the ROC and PR curves to gain a better s
 
 \newpage
 \section{Model Output Explanation}
+\label{sec:model_out_exp}
 
 As shown in figure~\ref{fig:alzheimerbrain}, Alzheimer disease tends to severely damage some specific regions of the brain. One of these regions is the hippocampus which serves at the creation of new memories. We would expect from a good explainer that indeed it highlights this specific region when explaining the output for a damaged brain. Figure~\ref{fig:dem_vs_control_age_pred} compares the outputs of the 3 algorithms we implemented on different slices of a damaged brain. In fact, in figure~\ref{fig:explainer_compared} we chose slices where the hippocampus is visible and observed that while Shap explanation is difficult to interpret, both GradCam and FullGrad focus on the hippocampus. It is especially visible with the output of the fullgrad algorithm where its maximal attention on this slice is actually located inside the hippocampus. For the rest of the report, we chose to work with fullgrad as its output makes more sense to us and is also sharper. The brain viewer implemented in annex~\ref{chap:brainviewer} is designed to work with a fullgrad saliency map.
 
-Looking at the fullgrad output in figure~\ref{fig:fullgrad_output}, it is also interesting to see the focus that the model has on the ventricles that typically grows larger for damage brains. 
+Looking at the fullgrad output in figure~\ref{fig:fullgrad_output}, we realized that the model tends to focus more on the right hippocampus that the left one. In fact, the analysis performed in annex~\ref{sec:ml_result_stat_analysis} seems to confirm the difference with respect to the right hippocampus between healthy and demented patients.
 
+Further analysis of the fullgrad outputs show the focus that the model has on the ventricles that typically grows larger for damaged brains.
 
 
 \begin{figure}

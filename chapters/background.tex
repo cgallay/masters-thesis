@@ -7,7 +7,7 @@ This section introduces the reader to the dementia disease, some of its symptoms
 \label{sec:medical_background}
 
 \subsection{Dementia}
-Dementia is not a specific disease but an overall term used to group all diseases that are characterized by a decrease in memory, thinking capabilities, language and other skills related to the thought. With between 60 and 70 percents\footnote{\href{https://www.who.int/news-room/fact-sheets/detail/dementia}{https://www.who.int/news-room/fact-sheets/detail/dementia}} of the cases, Alzheimer is the most common disease-causing dementia. Despite the fact that dementia is affecting mostly old people, it is not a normal stage of life and therefore should not be seen as severe ageing.
+Dementia is not a specific disease but an overall term used to group all diseases that are characterized by a decrease in memory, thinking capabilities, language and other skills related to the thought. With between 60 and 70 percents\footnote{\href{https://www.who.int/news-room/fact-sheets/detail/dementia}{https://www.who.int/news-room/fact-sheets/detail/dementia}} of the cases, Alzheimer's Disease (AD) is the most common disease-causing dementia. Despite the fact that dementia is affecting mostly old people, it is not a normal stage of life and therefore should not be seen as severe ageing.
 
 \begin{figure}
  \centering
@@ -20,9 +20,9 @@ Dementia is not a specific disease but an overall term used to group all disease
 Figure~\ref{fig:alzheimerbrain} highlights the visual differences that practitioners can use to diagnose a Alzheimer patient. Knowing which part of the brain is affected by the disease will help us evaluate our model. We expect a good model to focus his attention on these brain areas in order to make its prediction. In fact, one would more easily trust a model that has the same attention locations as a clinician, in agreement with the medical knowledge.
 
 \subsection{Current Methods}
-Most of the current models for detecting dementia are based on comparing some healthy brain scans with the one from the patient. This requires all the brain scans to be aligned, such that a voxel at a specific coordinate is mapping to the same brain region on both images. Section~\ref{sec:coregistration} describes in detail how to align two images.
+Most current methods in dementia research are based on the on comparing MRI scans from healthy participants to the scans from patients with dementia. this required that all the brain scan are aligned to a common template, as describe in section~\ref{sec:coregistration} The goal is that a voxel at a specific coordinate is mapping to the same brain region on both images. This also allows to remove the large differences of brain anatomy between subjects. For completeness of the study, we performed this method called Voxel-Based Morphometry\cite{voxel_based_morphometry_ASHBURNER2000805} in annex~\ref{chap:Morphometry_analysis}.
 
-TODO: ADD ANALYSIS AND ADD citation
+Some classical machine learning\cite{classical_ml_methods_SAMPERGONZALEZ2018504} approach such as SVM\cite{svm_article}, logistic regression and Random Forest\cite{random_forest_10.1023/A:1010933404324} have been use to detect dementia. These methods require the data to be preprocessed and leak at explaining their outputs.
 
 
 \subsection{Age vs. Dementia}
