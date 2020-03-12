@@ -43,7 +43,7 @@ The final goal of explaining a model is to help a specialist to make a better di
  \label{fig:IXI_pred_vs_age}
 \end{wrapfigure}
 
-At the very beginning of the project, we had no access to MRI from dement people. In order to proceed anyway and gain some time, we choose to work on predicting the age of someone based only on an MRI scan of his brain. For this purpose, the public IXI dataset was used. From there we design our preprocessing pipeline, and model that we were able to reuse later for dementia detection simply by changing the training dataset. We present here the result we obtained for this experience.
+At the very beginning of the project, we had no access to MRI of people with dementia. In order to proceed anyway and gain some time, we choose to work on predicting the age of someone based only on an MRI scan of his brain. For this purpose, the public IXI dataset was used. From there we design our preprocessing pipeline, and model that we were able to reuse later for dementia detection simply by changing the training dataset. We present here the result we obtained for this experience.
 
 The only variation compared to the dementia detection pipeline explained earlier is the last layer of the model we used and the loss to optimize. Instead of a $Sigmoid$ function, the last layer for a regression simply does not contain any activation function. The loss we want to minimize is a mean square error, which is classic for regression as we want to penalize larger errors. To evaluate the performance, the Mean Absolute Error (MAE) was computed, as it is more meaningful and easier for a human to imagine.
 
@@ -51,13 +51,13 @@ The only variation compared to the dementia detection pipeline explained earlier
 We achieved an MSE of 45 which correspond to a MAE of roughly 5 years. Interestingly by looking at the correlation between our prediction error and the age of the patient in figure~\ref{fig:IXI_pred_vs_age}, we found that the performance is uniform across ages which is a nice property of our predictor.
 
 \section{Dementia Seen as Over Ageing}
-In this section, we tried to check whether or not a patient with dementia can be seen as an overaged person. By looking at figure~\ref{fig:dem_vs_control_age_pred} it is hard to say that indeed our age predictor trained on healthy brains is overageing dement people. Indeed we might see that the model has worst performances on damage brain but once again we do not have enough data to conclude anything with certainty. 
+In this section, we tried to check whether or not a patient with dementia can be seen as an overaged person. By looking at figure~\ref{fig:dem_vs_control_age_pred} it is hard to say that indeed our age predictor trained on healthy brains is overageing dementia patients. Indeed we might see that the model has worst performances on damage brain but once again we do not have enough data to conclude anything with certainty. 
 
 Figure~\ref{fig:dem_vs_control_age_pred} does indeed highlight age bias present in the dataset. 
 \begin{figure}
  \centering
  \includegraphics[width=.9\linewidth]{figures/Experiements/dem_vs_cont_age_pred.pdf}
  \captionsetup{width=.9\linewidth}
- \caption{Prediction of age for control and dement patient on the OASIS dataset.}
+ \caption{Prediction of age for control and dementia patient on the OASIS dataset.}
  \label{fig:dem_vs_control_age_pred}
 \end{figure}
