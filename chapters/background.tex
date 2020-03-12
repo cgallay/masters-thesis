@@ -89,7 +89,7 @@ The accuracy is one of the simplest metrics to evaluate a model. It is computed 
 
 
 \subsection{Precision and Recall}
-While accuracy is simple to understand and to visualize, it can often fail at evaluating the performance of a model when the dataset has unbalanced classes. To overcome that issue other metrics can be computed based on the true/false positive and true/false negative.
+While accuracy is simple to understand and to visualize, it can often fail at evaluating the performance of a model when the dataset has unbalanced classes. To overcome this issue other metrics can be computed based on the true/false positive and true/false negative.
 
 \begin{itemize}
     \item \textbf{True positive (TP)}: Positive sample correctly classified as positive. 
@@ -112,7 +112,7 @@ $$Accuracy = \frac{TP + TN}{TP + TN + FP + FN}$$
 
 
 \subsection{ROC - AUC}
-Receiver Operating Characteristic allows for plotting a chart like figure~\ref{fig:roc_curve} that visualizes the true positive rate against the false positive rate at different thresholds. From that curve, we can compute the Area Under the Curve (AUC) which is a good metric to compare different models. Usually, a bigger AUC means a better model, the rise of the curve is even more important.
+Receiver Operating Characteristic allows for plotting a chart like figure~\ref{fig:roc_curve} that visualizes the true positive rate against the false positive rate at different thresholds. From this curve, we can compute the Area Under the Curve (AUC) which is a good metric to compare different models. Usually, a bigger AUC means a better model, the rise of the curve is even more important.
 In an ideal situation, we expect the curve to touch the top left corner and have an AUC of 1.
 
 \subsection{PR - Curve}
@@ -134,7 +134,7 @@ Shap is an algorithm based on Game Theory that aims to predict the contribution 
 \end{figure}
 \footnotetext{\href{https://github.com/slundberg/shap}{https://github.com/slundberg/shap}}
 
-The library\cite{shap_lundberg2017unified} works with different kinds of models but it was tested with the GradientExplainer as DeepExplainer is not fully compatible with Pytorch yet. Compared to some other explainer algorithm, Shap presents the advantage of giving a negative value for a feature which has a negative correlation with the output. The output obtained by that process can be seen in figure~\ref{fig:explainer_compared}, but we can see that it does not give a good interpretation in comparison with other techniques.
+The library\cite{shap_lundberg2017unified} works with different kinds of models but it was tested with the GradientExplainer as DeepExplainer is not fully compatible with Pytorch yet. Compared to some other explainer algorithm, Shap presents the advantage of giving a negative value for a feature which has a negative correlation with the output. The output obtained by this process can be seen in figure~\ref{fig:explainer_compared}, but we can see that it does not give a good interpretation in comparison with other techniques.
 
 
 
